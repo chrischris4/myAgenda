@@ -1,0 +1,53 @@
+.settings {
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: rgb(145, 100, 145);
+
+    button {
+        padding: 0 10px;
+        margin-top: 20px;
+        border: 2px solid black;
+        height: 50px;
+        border-radius: 10px;
+        font-family: 'Nunito';
+        background-color: black;
+        color: white;
+        width: fit-content;
+        font-weight: 500;
+        font-size: 20px;
+        }
+}
+
+.themes {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.theme {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: white;
+    color: black;
+    width: 200px;
+    margin-right: 20px;
+
+    h3{
+        margin-top: 0;
+    }
+}
+
+.themeColors {
+    display: flex;
+    justify-content: space-between;
+}
+
+.themeColor {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 2px solid ;
+}

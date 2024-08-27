@@ -25,11 +25,11 @@ function Calendar() {
         <div className='calendarContent'>
         <div className='calendarNav'>
             <div className="calendarNavContent">
-            <span className="material-symbols-outlined">
+            <span className="material-symbols-rounded">
 arrow_back_ios
 </span>
 <h2>2024</h2>
-<span className="material-symbols-outlined">
+<span className="material-symbols-rounded">
 arrow_forward_ios
 </span>
             </div>

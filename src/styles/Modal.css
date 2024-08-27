@@ -1,0 +1,61 @@
+.modalUser {
+    position: relative;
+    background-color: white;
+    width: 500px;
+    color: black;
+    padding: 20px;
+    border: 8px solid rgb(165, 165, 165);
+    border-radius: 20px;
+    /* position: absolute;
+    right: -100%; */
+
+    h2 {
+        margin-top: 0;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+
+    }
+
+    input {
+        border: 2px solid;
+        height: 40px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    button {
+        font-family: 'Nunito';
+        font-weight: 500;
+        font-size: 20px;
+        width: fit-content;
+        padding: 0 20px;
+        height: 50px;
+        border-radius: 10px;
+        background-color: black;
+        border: 2px solid;
+        color: white;
+        margin: auto;
+    }
+}
+
+.modalCreateProfil, .modalSubscribe, .modalSignIn {
+    display: none;
+}
+
+.modalCreateProfil {
+    display: flex;
+    flex-direction: column;
+}
+
+.modalClose {
+    font-size: 30px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}

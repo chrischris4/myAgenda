@@ -23,6 +23,7 @@ nav {
     }
 
     li{
+        cursor: pointer;
         font-size: 22px;
         padding: 10px 0;
         margin-bottom: 10px;

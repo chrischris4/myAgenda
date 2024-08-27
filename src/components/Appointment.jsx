@@ -7,10 +7,14 @@ function Appointment() {
             <h3>date</h3>
             <p>Desciption</p>
             <div className="iconAppointment modify">
-                d
+            <span className="material-symbols-rounded">
+delete
+</span>
             </div>
             <div className="iconAppointment delete">
-                m
+            <span className="material-symbols-rounded">
+edit_square
+</span>
             </div>
             </div>
         </div>
