@@ -2,7 +2,6 @@ import '../styles/Settings.css'
 function Settings() {
     return (
         <div className="settings">
-            <h2>Paramètres</h2>
             <h2>Thème</h2>
             <div className="themes">
                 <div className="theme">

@@ -1,8 +1,14 @@
-import '../styles/Appointment.css'
-function Appointment() {
+import '../styles/Appointments.css'
+function Appointments() {
     return (
-        <div className="appointment">
-            <div className="appointmentContent">
+        <div className="appointments">
+            <div className='appointmentsAdd'>
+            <span className="material-symbols-rounded">
+add
+</span><h2>Ajouter un Rendez-vous</h2>
+            </div>
+            <div className="appointmentsContent">
+                <div className='appointment'>
             <h2>Appointment title</h2>
             <h3>date</h3>
             <p>Desciption</p>
@@ -15,10 +21,11 @@ delete
             <span className="material-symbols-rounded">
 edit_square
 </span>
+</div>
             </div>
             </div>
         </div>
     )
 }
 
-export default Appointment
+export default Appointments

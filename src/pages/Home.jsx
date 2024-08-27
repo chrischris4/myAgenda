@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Appointment from '../components/Appointment';
+import Appointments from '../components/Appointments';
 import Calendar from '../components/Calendar';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
@@ -16,7 +16,7 @@ function Home() {
             case 'Calendrier':
                 return <Calendar />;
             case 'Rendez-vous':
-                return <Appointment />;
+                return <Appointments />;
             case 'Paramètres':
                 return <Settings />;
             default:

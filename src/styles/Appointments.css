@@ -1,14 +1,32 @@
-.appointment {
-    width: 32%;
-    border-radius: 20px;
-    background-color: #CE6A6B;
-    padding: 20px;
-    margin-bottom: 20px;
+.appointments {
+    width: 100%;
 }
 
-.appointmentContent {
+.appointmentsAdd {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    background-color: #CE6A6B;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    h2{
+        margin: 0;
+        margin-left: 20px;
+    }
+}
+
+.appointmentsContent {
+    display: flex;
+}
+
+.appointment {
+    padding: 20px;
+    background-color: #CE6A6B;
+    border-radius: 20px;
     position: relative;
-    width: 100%;
+    width: 32%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -29,10 +47,10 @@
     background-color: white;
     color: #CE6A6B;
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: 20px;
+    right: 20px;
 }
 
 .modify{ 
-    top: 40px;
+    top: 70px;
 }
