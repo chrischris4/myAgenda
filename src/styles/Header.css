@@ -1,0 +1,56 @@
+.header {
+    margin: 20px 0px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 120px;
+}
+
+.headerTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color:#CA3C66;
+    border-radius: 20px;
+    width: 75%;
+}
+
+.headerTitleContent {
+    
+    h1 {
+        margin-left: 20px;
+        margin-bottom: 0;
+    }
+
+    h2 {
+        margin-top: 5px;
+        margin-left: 20px;
+        font-weight: 200;
+    }
+}
+
+.headerDate {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+
+    h2{
+        margin: 0;
+    }
+}
+
+.headerUser {
+    background-color: #DB6A8F;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    width: 23%;
+}
+
+.userImg {
+    border: 2px solid white;
+    margin: 0 20px;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+}

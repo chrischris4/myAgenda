@@ -1,0 +1,71 @@
+.calendar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 20px;
+    padding-bottom: 0;
+}
+
+.calendarContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.calendarNav {
+    background-color: #a97c8a;
+    border-radius: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.calendarNavContent {
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.monthContainer {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+justify-content: space-between;}
+
+.month {
+    display: flex;
+    flex-direction: column;
+    width: 32%;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    background-color: #a97c8a;
+
+    h2{
+        margin-top: 0;
+    }
+}
+
+.monthContent {
+    padding: 20px;
+}
+
+.daysContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.day {
+    display: flex;
+    margin-right: 7px;
+    margin-bottom: 7px;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    background-color: white;
+    color: #a97c8a;
+}
