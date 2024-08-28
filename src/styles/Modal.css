@@ -1,4 +1,4 @@
-.modalUser {
+.modals {
     position: relative;
     background-color: white;
     width: 500px;
@@ -6,10 +6,12 @@
     padding: 20px;
     border: 8px solid rgb(165, 165, 165);
     border-radius: 20px;
-    /* position: absolute;
-    right: -100%; */
 
     h2 {
+        margin-top: 0;
+    }
+
+    p{
         margin-top: 0;
     }
 
@@ -18,35 +20,44 @@
         flex-direction: column;
     }
 
-    label {
-
-    }
-
     input {
+        padding-left: 10px;
         border: 2px solid;
         height: 40px;
         border-radius: 10px;
         margin-bottom: 20px;
     }
 
-    button {
-        font-family: 'Nunito';
-        font-weight: 500;
-        font-size: 20px;
-        width: fit-content;
-        padding: 0 20px;
-        height: 50px;
-        border-radius: 10px;
-        background-color: black;
+    textarea {
         border: 2px solid;
-        color: white;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        height: 100px;
+        max-height: 200px;
+        resize: vertical;
+    }
+
+    .resizer {
+        background: #ccc; /* Couleur de la poignée */
+        cursor: nwse-resize; /* Curseur de redimensionnement */
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 10px; /* Taille de la poignée */
+        height: 10px; /* Taille de la poignée */
+    }
+
+    button {
+        align-self: center;
         margin: auto;
     }
 }
 
-.modalCreateProfil, .modalSubscribe, .modalSignIn {
-    display: none;
+.modal {
+    display: flex;
+    flex-direction: column;
 }
+
 
 .modalCreateProfil {
     display: flex;
@@ -54,6 +65,7 @@
 }
 
 .modalClose {
+    cursor: pointer;
     font-size: 30px;
     position: absolute;
     top: 20px;

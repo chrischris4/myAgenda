@@ -12,7 +12,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color:#CA3C66;
+    background-color:#222D41;
     border-radius: 20px;
     width: 75%;
 }
@@ -42,7 +42,7 @@
 }
 
 .headerUser {
-    background-color: #DB6A8F;
+    background-color: #7F5056;
     border-radius: 20px;
     display: flex;
     align-items: center;

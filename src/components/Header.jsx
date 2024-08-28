@@ -18,7 +18,7 @@ function Header() {
             </div>
             </div>
             <div className="headerUser">
-                <img className="userImg" src="https://i.ibb.co/mDKVbkB/tencents-1-1.png" alt="" />
+                <img className="userImg" src="https://i.ibb.co/wh7Hy6g/think-817844.png" alt="" />
                 <h2>UserName</h2>
             </div>     
         </div>

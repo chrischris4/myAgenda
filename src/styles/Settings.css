@@ -3,20 +3,10 @@
     flex-direction: column;
     border-radius: 20px;
     padding: 20px;
-    background-color: rgb(145, 100, 145);
+    background-color: #98707c;
 
     button {
-        padding: 0 10px;
         margin-top: 20px;
-        border: 2px solid black;
-        height: 50px;
-        border-radius: 10px;
-        font-family: 'Nunito';
-        background-color: black;
-        color: white;
-        width: fit-content;
-        font-weight: 500;
-        font-size: 20px;
         }
 }
 
@@ -26,18 +16,24 @@
 }
 
 .theme {
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     padding: 20px;
     border-radius: 20px;
+    border: 4px solid white;
     background-color: white;
-    color: black;
+    color: #11151D;
     width: 200px;
     margin-right: 20px;
 
     h3{
         margin-top: 0;
     }
+}
+
+.theme:hover {
+    border: 4px solid #11151D;
 }
 
 .themeColors {
@@ -49,5 +45,5 @@
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    border: 2px solid ;
+    border: 2px solid #11151D;
 }

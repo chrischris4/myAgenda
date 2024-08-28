@@ -1,23 +1,29 @@
 import React, { useState } from 'react';
-import Appointments from '../components/Appointments';
+import Events from '../components/Events';
 import Calendar from '../components/Calendar';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import ModalUser from '../components/ModalUser';
+import Modal from '../components/Modal';
 import Nav from '../components/Nav';
 import Settings from '../components/Settings';
 import '../styles/Home.css';
 
 function Home() {
     const [activeTab, setActiveTab] = useState('Calendrier');
+    const [showModal, setShowModal] = useState(false);
+    const [activeModalSection, setActiveModalSection] = useState('');
+
+
 
     const renderActiveTab = () => {
         switch (activeTab) {
             case 'Calendrier':
                 return <Calendar />;
             case 'Rendez-vous':
-                return <Appointments />;
-            case 'Paramètres':
+                return <Events onShowModalClick={(section) => {
+                    setShowModal(true);
+                    setActiveModalSection(section);
+                }} />;            case 'Paramètres':
                 return <Settings />;
             default:
                 return null;
@@ -33,9 +39,11 @@ function Home() {
                     {renderActiveTab()}
                 </div>
             </div>
-            <div className='modalOverlay'>
-                <ModalUser />
-            </div>
+            {showModal && (
+                <div className='modalOverlay'>
+                    <Modal onClose={() => setShowModal(false)} activeSection={activeModalSection} />
+                </div>
+            )}
             <Footer />
         </div>
     );

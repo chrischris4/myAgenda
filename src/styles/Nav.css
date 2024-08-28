@@ -1,6 +1,6 @@
 .nav {
     border-radius: 20px;
-    background-color: #4AA3A2;
+    background-color: #374158;
     width: 100%;
     display: flex;
     align-items: center;
@@ -12,6 +12,7 @@ nav {
     margin: auto;
     display: flex;
     justify-content: center;
+
     ul{
         width: 100%;
         padding: 0;
@@ -23,7 +24,15 @@ nav {
     li{
         cursor: pointer;
         font-size: 22px;
-        padding: 10px 0;
+        padding: 10px;
+        border-radius: 20px;
+        border: 4px solid #6b748a;
+    }
+
+    li:hover {
+        background-color: white;
+        color: #374158;
+        border: 4px solid white;
     }
 }
 

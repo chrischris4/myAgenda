@@ -20,12 +20,11 @@
 }
 
 .modalOverlay {
-    display: none;
-    opacity: 0;
     background-color: rgba(88, 88, 88, 0.5);
     height: 100vh;
     width: 100%;
     position: fixed;
+    display: flex;
     align-items: center;
     justify-content: center;
 }

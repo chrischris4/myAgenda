@@ -1,0 +1,82 @@
+.events {
+    width: 100%;
+}
+
+.eventsAdd {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    background-color: #98707c;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    h2{
+        margin: 0;
+        margin-left: 20px;
+    }
+}
+
+.eventsContent {
+    display: flex;
+}
+
+.event {
+    padding: 20px;
+    background-color: #98707c;
+    border-radius: 20px;
+    position: relative;
+    width: fit-content;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    h2{
+        margin: 0;
+        margin-right: 50px;
+    }
+
+    h3{
+        margin-right: 50px;
+    }
+
+    p{
+        margin-bottom: 0;
+    }
+}
+
+.eventLine {
+    width: 100%;
+    height: 2px;
+    background-color: #c49da8;
+}
+
+.iconEvent {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #98707c;
+    color: white;
+    border: 2px solid white;
+}
+
+.iconEvent:hover {
+    background-color: white;
+    color: #98707c;
+}
+.delete {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+}
+
+.modify{ 
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
