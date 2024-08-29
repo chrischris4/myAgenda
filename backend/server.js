@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 4000;
+const cors = require('cors');
 const mongoose = require("mongoose");
 
 const eventRoutes = require("./routes/event");
@@ -9,6 +10,10 @@ const eventRoutes = require("./routes/event");
 
 // Middleware pour parsing JSON
 app.use(express.json());
+
+app.use(cors());
+
+
 
 // Connection a la base de données
 mongoose
@@ -20,10 +25,7 @@ mongoose
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
-// Exemple de route API
-app.get('/api/hello', (req, res) => {
-  res.send({ message: 'Hello from the backend!' });
-});
+
 
 // Démarrage du serveur
 app.listen(port, () => {
