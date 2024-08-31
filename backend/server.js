@@ -5,6 +5,7 @@ const cors = require('cors');
 const mongoose = require("mongoose");
 
 const eventRoutes = require("./routes/event");
+const userRoutes = require("./routes/user")
 
 
 
@@ -32,5 +33,6 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-
+//ROUTING
 app.use("/api/events", eventRoutes);
+app.use("/api/users", userRoutes);

@@ -13,17 +13,20 @@ function Home() {
     const [showModal, setShowModal] = useState(false);
     const [activeModalSection, setActiveModalSection] = useState('');
 
-
-
     const renderActiveTab = () => {
         switch (activeTab) {
             case 'Calendrier':
                 return <Calendar />;
             case 'Rendez-vous':
-                return <Events onShowModalClick={(section) => {
-                    setShowModal(true);
-                    setActiveModalSection(section);
-                }} />;            case 'Paramètres':
+                return (
+                    <Events
+                        onShowModalClick={section => {
+                            setShowModal(true);
+                            setActiveModalSection(section);
+                        }}
+                    />
+                );
+            case 'Paramètres':
                 return <Settings />;
             default:
                 return null;
@@ -32,16 +35,26 @@ function Home() {
 
     return (
         <div className="home">
-            <Header />
-            <div className='homeContent'>
+            <div className="homeContent">
+                <Header
+                    onShowModalClick={section => {
+                        setShowModal(true);
+                        setActiveModalSection(section);
+                    }}
+                />
                 <Nav activeTab={activeTab} setActiveTab={setActiveTab} />
-                <div className='homeSection'>
-                    {renderActiveTab()}
-                </div>
+                <div className="homeSection">{renderActiveTab()}</div>
             </div>
             {showModal && (
-                <div className='modalOverlay'>
-                    <Modal onClose={() => setShowModal(false)} activeSection={activeModalSection} />
+                <div className="modalOverlay">
+                    <Modal
+                        onClose={() => setShowModal(false)}
+                        activeSection={activeModalSection}
+                        onShowModalClick={section => {
+                            setShowModal(true);
+                            setActiveModalSection(section);
+                        }}
+                    />
                 </div>
             )}
             <Footer />
