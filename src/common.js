@@ -12,8 +12,6 @@ export async function createUser(data) {
     }
 }
 
-
-
 ///////////////EVENTS////////////////////////////
 
 export async function createEvent(data) {

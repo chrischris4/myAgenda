@@ -1,0 +1,49 @@
+.homePage {
+    display: flex;
+    align-items: center;
+}
+
+.homePageImgContainer {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+}
+
+.homePageImg {
+    width: 80%;
+}
+
+.homePageAbout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.homePageAboutContent {
+    background-color: #7f5056;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    h2 {
+        margin-top: 0;
+    }
+
+    h3 {
+        text-align: center;
+        width: 80%;
+        margin: 0;
+        font-weight: 200;
+    }
+}
+
+.homePageBtns {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}

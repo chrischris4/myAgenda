@@ -7,11 +7,17 @@ import Modal from '../components/Modal';
 import Nav from '../components/Nav';
 import Settings from '../components/Settings';
 import '../styles/Home.css';
+import HomePage from '../components/HomePage';
 
 function Home() {
     const [activeTab, setActiveTab] = useState('Calendrier');
     const [showModal, setShowModal] = useState(false);
     const [activeModalSection, setActiveModalSection] = useState('');
+    const [connectedUser, setConnectedUser] = useState(false);
+
+    const isUserConnected = () => {
+        setConnectedUser(true);
+    };
 
     const renderActiveTab = () => {
         switch (activeTab) {
@@ -35,16 +41,21 @@ function Home() {
 
     return (
         <div className="home">
-            <div className="homeContent">
-                <Header
-                    onShowModalClick={section => {
-                        setShowModal(true);
-                        setActiveModalSection(section);
-                    }}
-                />
-                <Nav activeTab={activeTab} setActiveTab={setActiveTab} />
-                <div className="homeSection">{renderActiveTab()}</div>
-            </div>
+            <Header
+                onShowModalClick={section => {
+                    setShowModal(true);
+                    setActiveModalSection(section);
+                }}
+                setConnectedUser={isUserConnected}
+                connectedUser={connectedUser}
+            />
+            {!connectedUser && <HomePage setConnectedUser={isUserConnected} />}
+            {connectedUser && (
+                <div className="homeContent">
+                    <Nav activeTab={activeTab} setActiveTab={setActiveTab} />
+                    <div className="homeSection">{renderActiveTab()}</div>
+                </div>
+            )}
             {showModal && (
                 <div className="modalOverlay">
                     <Modal

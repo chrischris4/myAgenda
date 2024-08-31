@@ -1,7 +1,7 @@
 import '../styles/Header.css';
 import React from 'react';
 
-function Header({ onShowModalClick }) {
+function Header({ onShowModalClick, connectedUser }) {
     const handleModalSubscribeClick = () => {
         onShowModalClick('modalSubscribe');
     };
@@ -16,7 +16,7 @@ function Header({ onShowModalClick }) {
     const formattedDate = today.toLocaleDateString('fr-FR', options);
     return (
         <div className="header">
-            <div className="headerTitle">
+            <div className={`headerTitle ${!connectedUser ? 'hideUser' : ''}`}>
                 <div className="headerTitleContent">
                     <h1>My Agenda</h1>
                     <h2>Votre calendrier personnalisé</h2>
@@ -25,18 +25,22 @@ function Header({ onShowModalClick }) {
                     <h2>{formattedDate}</h2>
                 </div>
             </div>
-            <div className="headerUser">
-                <img
-                    className="userImg"
-                    src="https://i.ibb.co/wh7Hy6g/think-817844.png"
-                    alt=""
-                />
-                <h2>UserName</h2>
-                <div className="headerLinks">
-                    <h3>Se connecter</h3>
-                    <h3 onClick={handleModalSubscribeClick}>Crée un compte</h3>
+            {connectedUser && (
+                <div className="headerUser">
+                    <img
+                        className="userImg"
+                        src="https://i.ibb.co/wh7Hy6g/think-817844.png"
+                        alt=""
+                    />
+                    <h2>UserName</h2>
+                    <div className="headerLinks">
+                        <h3>Se connecter</h3>
+                        <h3 onClick={handleModalSubscribeClick}>
+                            Crée un compte
+                        </h3>
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }
