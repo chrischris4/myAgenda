@@ -1,11 +1,7 @@
 import '../styles/Header.css';
 import React from 'react';
 
-function Header({ onShowModalClick, connectedUser }) {
-    const handleModalSubscribeClick = () => {
-        onShowModalClick('modalSubscribe');
-    };
-
+function Header({ connectedUser }) {
     const today = new Date();
     const options = {
         weekday: 'long',
@@ -25,22 +21,14 @@ function Header({ onShowModalClick, connectedUser }) {
                     <h2>{formattedDate}</h2>
                 </div>
             </div>
-            {connectedUser && (
-                <div className="headerUser">
-                    <img
-                        className="userImg"
-                        src="https://i.ibb.co/wh7Hy6g/think-817844.png"
-                        alt=""
-                    />
-                    <h2>UserName</h2>
-                    <div className="headerLinks">
-                        <h3>Se connecter</h3>
-                        <h3 onClick={handleModalSubscribeClick}>
-                            Crée un compte
-                        </h3>
-                    </div>
-                </div>
-            )}
+            <div className={`headerUser ${connectedUser ? 'showUser' : ''}`}>
+                <img
+                    className="userImg"
+                    src="https://i.ibb.co/wh7Hy6g/think-817844.png"
+                    alt=""
+                />
+                <h2>UserName</h2>
+            </div>
         </div>
     );
 }

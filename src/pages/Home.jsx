@@ -8,21 +8,28 @@ import Nav from '../components/Nav';
 import Settings from '../components/Settings';
 import '../styles/Home.css';
 import HomePage from '../components/HomePage';
+import SelectedDaySection from '../components/SelectedDaySection';
 
 function Home() {
     const [activeTab, setActiveTab] = useState('Calendrier');
     const [showModal, setShowModal] = useState(false);
     const [activeModalSection, setActiveModalSection] = useState('');
     const [connectedUser, setConnectedUser] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null); // Nouvel état pour la date sélectionnée
 
     const isUserConnected = () => {
         setConnectedUser(true);
     };
 
+    const handleDateClick = date => {
+        setSelectedDate(date);
+        setActiveTab('Jour');
+    };
+
     const renderActiveTab = () => {
         switch (activeTab) {
             case 'Calendrier':
-                return <Calendar />;
+                return <Calendar onDateClick={handleDateClick} />;
             case 'Rendez-vous':
                 return (
                     <Events
@@ -34,6 +41,8 @@ function Home() {
                 );
             case 'Paramètres':
                 return <Settings />;
+            case 'Jour':
+                return <SelectedDaySection date={selectedDate} />;
             default:
                 return null;
         }

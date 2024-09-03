@@ -1,21 +1,27 @@
 .header {
+    position: relative;
     margin: auto;
     margin-top: 20px;
     margin-bottom: 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     width: 90%;
     height: 120px;
 }
 
 .headerTitle {
+    position: absolute;
+    left: 0px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #222d41;
-    border: 4px solid #222d41;
+    border-right: 4px solid #222d41;
+    border-left: 4px solid #222d41;
     border-radius: 20px;
+    height: 100%;
     width: 65.5%;
+    transition: width 0.4s ease-in-out;
 }
 
 .hideUser {
@@ -41,14 +47,15 @@
     flex-direction: column;
     height: 100%;
     margin-right: 20px;
-    margin-bottom: 20px;
 
     h2 {
         margin: 0;
+        margin-bottom: 20px;
     }
 }
 
 .headerUser {
+    transform: translateX(200%);
     background-color: #7f5056;
     border: 4px solid #7f5056;
     border-radius: 20px;
@@ -56,10 +63,15 @@
     align-items: center;
     justify-content: center;
     width: 31.5%;
+    transition: transform 0.4s ease-in-out;
 
     h2 {
         cursor: pointer;
     }
+}
+
+.showUser {
+    transform: translateX(0);
 }
 
 .userImg {
@@ -69,8 +81,4 @@
     border-radius: 50%;
     height: 50px;
     width: 50px;
-}
-
-.headerLinks {
-    display: none;
 }

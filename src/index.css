@@ -1,23 +1,23 @@
 * {
-  font-family: 'Nunito';
+    font-family: 'Nunito';
 }
 
 body {
-  color: white;
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    color: white;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 button {
-  cursor: pointer;
+    cursor: pointer;
     font-weight: 500;
     font-size: 20px;
     width: fit-content;
     padding: 0 20px;
     height: 50px;
     border-radius: 10px;
-    background-color: #11151D;
-    border: 2px solid #11151D;
+    background-color: #11151d;
+    border: 2px solid #11151d;
     color: white;
 }

@@ -2,9 +2,9 @@
     position: relative;
     background-color: white;
     width: 500px;
-    color: black;
+    color: #11151d;
     padding: 20px;
-    border: 8px solid rgb(165, 165, 165);
+    border: 8px solid #11151d;
     border-radius: 20px;
     transition: transform 0.4s ease-in-out;
 
@@ -34,7 +34,8 @@
         border-radius: 10px;
         margin-bottom: 20px;
         height: 100px;
-        max-height: 200px;
+        max-height: 150px;
+        min-height: 50px;
         resize: vertical;
     }
 

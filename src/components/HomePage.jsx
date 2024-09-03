@@ -11,19 +11,15 @@ function HomePage({ setConnectedUser }) {
                 />
             </div>
             <div className="homePageAbout">
-                <div className="homePageAboutContent">
-                    <h2>Rejoignez My Agenda !</h2>
-                    <h3>Une organisation facile et rapide</h3>
-                    <h3>
-                        Personnalisé vos rendez-vous et l'interface comme vous
-                        en avez envie !
-                    </h3>
-                </div>
+                <h3>Une organisation facile et rapide</h3>
+                <h3>
+                    Personnalisé vos rendez-vous et l'interface comme vous en
+                    avez envie !
+                </h3>
+                <h2>Rejoignez My Agenda !</h2>
                 <div className="homePageBtns">
-                    <button className="homePageBtn">Crée un compte</button>
-                    <button className="homePageBtn" onClick={setConnectedUser}>
-                        Se connecter
-                    </button>
+                    <button>Crée un compte</button>
+                    <button onClick={setConnectedUser}>Se connecter</button>
                 </div>
             </div>
         </div>

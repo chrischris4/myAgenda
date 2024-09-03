@@ -8,7 +8,6 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-
 }
 
 .calendarNav {
@@ -28,7 +27,8 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-justify-content: space-between;}
+    justify-content: space-between;
+}
 
 .month {
     display: flex;
@@ -38,7 +38,7 @@ justify-content: space-between;}
     margin-top: 20px;
     background-color: #98707c;
 
-    h2{
+    h2 {
         margin-top: 0;
     }
 }
@@ -61,6 +61,13 @@ justify-content: space-between;}
     height: 35px;
     width: 35px;
     border-radius: 50%;
+    border: 2px solid white;
     background-color: white;
     color: #a97c8a;
+    cursor: pointer;
+}
+
+.day:hover {
+    border: 2px solid #11151d;
+    color: #11151d;
 }

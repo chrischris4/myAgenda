@@ -14,36 +14,32 @@
 }
 
 .homePageAbout {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.homePageAboutContent {
-    background-color: #7f5056;
-    border-radius: 20px;
     padding: 20px;
+    background-color: #f3ebec;
+    border-radius: 20px;
+    color: #11151d;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 
     h2 {
-        margin-top: 0;
+        margin-top: 10px;
+        margin-bottom: 20px;
     }
 
     h3 {
-        text-align: center;
         width: 80%;
         margin: 0;
-        font-weight: 200;
+        margin-bottom: 10px;
+        font-weight: 300;
     }
 }
 
 .homePageBtns {
     width: 100%;
-    margin-top: 20px;
     display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+
+    button {
+        margin-right: 20px;
+    }
 }
