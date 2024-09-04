@@ -1,6 +1,13 @@
 import '../styles/HomePage.css';
 
-function HomePage({ setConnectedUser }) {
+function HomePage({ onShowModalClick }) {
+    const handleSignInClick = () => {
+        onShowModalClick('modalSignIn');
+    };
+
+    const handleSubscribeClick = () => {
+        onShowModalClick('modalSubscribe');
+    };
     return (
         <div className="homePage">
             <div className="homePageImgContainer">
@@ -18,8 +25,10 @@ function HomePage({ setConnectedUser }) {
                 </h3>
                 <h2>Rejoignez My Agenda !</h2>
                 <div className="homePageBtns">
-                    <button>Crée un compte</button>
-                    <button onClick={setConnectedUser}>Se connecter</button>
+                    <button onClick={handleSubscribeClick}>
+                        Crée un compte
+                    </button>
+                    <button onClick={handleSignInClick}>Se connecter</button>
                 </div>
             </div>
         </div>

@@ -1,51 +1,92 @@
-.selectedDay {
-    display: flex;
-}
-
-.selectedDayContainer {
+.selectedDaySection {
     display: flex;
     flex-direction: column;
-    width: 600px;
+}
+
+.selectedDayNavBtn {
+    display: flex;
+    justify-content: space-between;
 }
 
 .selectedDayNav {
     display: flex;
-    justify-content: center;
-    width: 100%;
+    width: 66%;
     background-color: rgb(28, 28, 50);
     border-radius: 20px;
     margin-bottom: 20px;
 }
 
+.selectedDayNavContent {
+    width: 100%;
+    padding: 0px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    span {
+        cursor: pointer;
+    }
+}
+
+.selectedDayBtn {
+    height: fit-content;
+    background-color: #98707c;
+    width: 32%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    h2 {
+        margin-left: 20px;
+    }
+}
+
+.selectedDay {
+    display: flex;
+    width: 100%;
+}
+
 .hours {
     margin-right: 20px;
-    padding-top: 20px;
+    padding: 20px;
+    padding-bottom: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100px;
+    width: fit-content;
     border-radius: 20px;
     background-color: rgb(28, 28, 50);
 }
 
 .hour {
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .selectedDayEvents {
-    width: 480px;
-    height: 100%;
+    width: 100%;
+}
+
+.selectedDayEvent,
+.noEvents {
+    box-sizing: border-box;
+    margin: 0;
+    margin-bottom: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    min-width: 30%;
+    max-width: 100%;
+    height: fit-content;
     background-color: rgb(28, 28, 50);
     border-radius: 20px;
+
+    h3 {
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
 }
 
-.selectedDaySection {
-    display: flex;
-}
-
-.selectedDayBtns {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.eventDate {
+    margin: 0;
+    font-weight: 200;
 }

@@ -38,20 +38,20 @@
 .themes {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 20px;
 }
 
 .theme {
-    width: 200px;
+    width: 220px;
+    margin-bottom: 20px;
 }
 
 .themeColors {
     margin-top: 20px;
     display: flex;
-    justify-content: space-between;
 }
 
 .themeColor {
+    margin-right: 10px;
     height: 40px;
     width: 40px;
     border-radius: 50%;
@@ -61,4 +61,13 @@
 .languages {
     display: flex;
     margin-bottom: 20px;
+}
+
+/* ////////////COLORS//////////////////////////////////////////////// */
+
+.white {
+    background-color: white;
+}
+.black {
+    background-color: black;
 }

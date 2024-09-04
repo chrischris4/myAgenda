@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getEvents } from '../common';
 import Events from '../components/Events';
 import Calendar from '../components/Calendar';
 import Footer from '../components/Footer';
@@ -15,7 +16,22 @@ function Home() {
     const [showModal, setShowModal] = useState(false);
     const [activeModalSection, setActiveModalSection] = useState('');
     const [connectedUser, setConnectedUser] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(null); // Nouvel état pour la date sélectionnée
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [events, setEvents] = useState([]);
+    const [topLink, setTopLink] = useState(false);
+
+    const showTopLink = () => {
+        if (window.scrollY > 0) {
+            // Ajustez ce seuil selon vos besoins
+            setTopLink(true);
+        } else {
+            setTopLink(false);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', showTopLink);
+    }, []);
 
     const isUserConnected = () => {
         setConnectedUser(true);
@@ -25,6 +41,37 @@ function Home() {
         setSelectedDate(date);
         setActiveTab('Jour');
     };
+
+    const handlePrevDay = () => {
+        setSelectedDate(prevDate => {
+            const newDate = new Date(prevDate);
+            newDate.setDate(prevDate.getDate() - 1); // Reculer d'un jour
+            return newDate;
+        });
+    };
+
+    const handleNextDay = () => {
+        setSelectedDate(prevDate => {
+            const newDate = new Date(prevDate);
+            newDate.setDate(prevDate.getDate() + 1); // Avancer d'un jour
+            return newDate;
+        });
+    };
+
+    useEffect(() => {
+        if (connectedUser) {
+            const fetchEvents = async () => {
+                const response = await getEvents();
+                if (!response.error) {
+                    setEvents(response.events);
+                } else {
+                    console.error(response.message);
+                }
+            };
+
+            fetchEvents();
+        }
+    }, [connectedUser]);
 
     const renderActiveTab = () => {
         switch (activeTab) {
@@ -37,12 +84,24 @@ function Home() {
                             setShowModal(true);
                             setActiveModalSection(section);
                         }}
+                        events={events}
                     />
                 );
             case 'Paramètres':
                 return <Settings />;
             case 'Jour':
-                return <SelectedDaySection date={selectedDate} />;
+                return (
+                    <SelectedDaySection
+                        onShowModalClick={section => {
+                            setShowModal(true);
+                            setActiveModalSection(section);
+                        }}
+                        date={selectedDate}
+                        events={events}
+                        onPrevDay={handlePrevDay} // Passer la fonction pour le jour précédent
+                        onNextDay={handleNextDay} //
+                    />
+                );
             default:
                 return null;
         }
@@ -58,7 +117,14 @@ function Home() {
                 setConnectedUser={isUserConnected}
                 connectedUser={connectedUser}
             />
-            {!connectedUser && <HomePage setConnectedUser={isUserConnected} />}
+            {!connectedUser && (
+                <HomePage
+                    onShowModalClick={section => {
+                        setShowModal(true);
+                        setActiveModalSection(section);
+                    }}
+                />
+            )}
             {connectedUser && (
                 <div className="homeContent">
                     <Nav activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -68,6 +134,7 @@ function Home() {
             {showModal && (
                 <div className="modalOverlay">
                     <Modal
+                        setConnectedUser={isUserConnected}
                         onClose={() => setShowModal(false)}
                         activeSection={activeModalSection}
                         onShowModalClick={section => {
@@ -77,6 +144,14 @@ function Home() {
                     />
                 </div>
             )}
+            <div
+                className={`topLink ${topLink ? 'showTopLink' : ''}`}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+                <span className="material-symbols-rounded">
+                    keyboard_arrow_up
+                </span>
+            </div>
             <Footer />
         </div>
     );

@@ -1,6 +1,12 @@
 import '../styles/SelectedDaySection.css';
 
-function SelectedDaySection({ date }) {
+function SelectedDaySection({
+    date,
+    events,
+    onPrevDay,
+    onNextDay,
+    onShowModalClick,
+}) {
     // Accepter la date en prop
     const formattedDate = date.toLocaleDateString('fr-FR', {
         weekday: 'long',
@@ -9,30 +15,66 @@ function SelectedDaySection({ date }) {
         day: 'numeric',
     });
 
-    const hours = Array.from({ length: 24 }, (_, index) => {
-        const hour = index.toString().padStart(2, '0'); // Formate les heures en 2 chiffres (par exemple, 09 au lieu de 9)
-        return `${hour}:00`;
+    const eventsForSelectedDate = events.filter(event => {
+        const eventDate = new Date(event.date);
+        return (
+            eventDate.getFullYear() === date.getFullYear() &&
+            eventDate.getMonth() === date.getMonth() &&
+            eventDate.getDate() === date.getDate()
+        );
     });
 
+    const handleAddClick = () => {
+        onShowModalClick('modalCreateEvent');
+    };
+
     return (
-        <div className="selectedDay">
-            <div className="selectedDayContainer">
+        <div className="selectedDaySection">
+            <div className="selectedDayNavBtn">
                 <div className="selectedDayNav">
-                    <h2>{formattedDate}</h2> {/* Afficher la date formatée */}
-                </div>
-                <div className="selectedDaySection">
-                    <div className="hours">
-                        {hours.map((hour, index) => (
-                            <div key={index} className="hour">
-                                {hour}
-                            </div>
-                        ))}
+                    <div className="selectedDayNavContent">
+                        <span
+                            className="material-symbols-rounded"
+                            onClick={onPrevDay} // Gérer le clic pour le jour précédent
+                        >
+                            arrow_back_ios
+                        </span>
+                        <h2>{formattedDate}</h2>
+                        <span
+                            className="material-symbols-rounded"
+                            onClick={onNextDay} // Gérer le clic pour le jour suivant
+                        >
+                            arrow_forward_ios
+                        </span>
                     </div>
-                    <div className="selectedDayEvents"></div>
+                </div>
+                <div className="selectedDayBtn" onClick={handleAddClick}>
+                    <span className="material-symbols-rounded iconEvent">
+                        add
+                    </span>
+                    <h2>Ajouter un Rendez-vous</h2>
                 </div>
             </div>
-            <div className="selectedDayBtns">
-                <button></button>
+            <div className="selectedDay">
+                <div className="selectedDayEvents">
+                    {eventsForSelectedDate.length > 0 ? (
+                        eventsForSelectedDate.map(event => (
+                            <div key={event._id} className="selectedDayEvent">
+                                <h3>{event.title}</h3>
+                                <p className="eventDate">
+                                    {new Date(event.date).toLocaleTimeString(
+                                        'fr-FR'
+                                    )}
+                                </p>
+                                <p>{event.description}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <p className="noEvents">
+                            Aucun événement pour cette journée
+                        </p>
+                    )}
+                </div>
             </div>
         </div>
     );

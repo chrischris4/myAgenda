@@ -23,6 +23,19 @@ exports.createEvent = async (req, res) => {
     }
 };
 
+exports.getEvents = async (req, res) => {
+    try {
+        // Rechercher tous les événements dans la collection
+        const events = await Event.find({});
+
+        // Retourner les événements sous forme de JSON
+        res.status(200).json(events);
+    } catch (error) {
+        console.error('Erreur lors de la récupération des événements', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 const checkEvents = async () => {
     try {
         // Recherchez tous les events dans la collection

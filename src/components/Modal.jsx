@@ -4,7 +4,7 @@ import { createEvent, createUser } from '../common';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-function Modal({ onClose, activeSection, onShowModalClick }) {
+function Modal({ onClose, activeSection, onShowModalClick, setConnectedUser }) {
     const [startDate, setStartDate] = useState(new Date());
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -63,6 +63,13 @@ function Modal({ onClose, activeSection, onShowModalClick }) {
             // Gérer l'erreur
             console.error(response.message);
         }
+    };
+    const handleSubmitSignIn = async e => {
+        e.preventDefault();
+
+        // Si la connexion réussie, mettez à jour l'état de connexion
+        setConnectedUser(true);
+        onClose(); // Fermez la modal après connexion
     };
 
     return (
@@ -129,12 +136,12 @@ function Modal({ onClose, activeSection, onShowModalClick }) {
             {activeSection === 'modalSignIn' && (
                 <div className="modalSignIn modal">
                     <h2>Se connecter</h2>
-                    <form action="">
+                    <form onSubmit={handleSubmitSignIn}>
                         <label htmlFor="">E mail</label>
-                        <input type="text" name="" id="" />
+                        <input type="text" name="" id="email" required />
                         <label htmlFor="">Mot de passe</label>
-                        <input type="password" name="" id="" />
-                        <button>Connexion</button>
+                        <input type="password" name="" id="password" required />
+                        <button type="submit">Connexion</button>
                     </form>
                 </div>
             )}

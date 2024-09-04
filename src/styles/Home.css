@@ -10,7 +10,7 @@
     width: 90%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between
+    justify-content: space-between;
 }
 
 .homeSection {
@@ -27,4 +27,29 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#top {
+    position: fixed;
+    top: 0;
+}
+
+.topLink {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: #222d41;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    transform: translateX(200%);
+    transition: transform 0.4s ease-in-out;
+}
+
+.showTopLink {
+    transform: translateX(0%);
 }

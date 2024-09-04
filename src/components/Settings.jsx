@@ -31,6 +31,13 @@ function Settings() {
                         <div className="themeColor"></div>
                     </div>
                 </div>
+                <div className="settingsItem theme">
+                    <h3>Noir et Blanc</h3>
+                    <div className="themeColors">
+                        <div className="themeColor black"></div>
+                        <div className="themeColor white"></div>
+                    </div>
+                </div>
             </div>
             <h2>Langues</h2>
             <div className="languages">
