@@ -42,28 +42,28 @@ export const loginUser = async data => {
     }
 };
 
-export async function getUserDetails() {
+export async function getUserPseudo() {
     try {
-        const token = getFromLocalStorage('token');
-        const response = await axios.get(`${API_ROUTES.USER}/details`, {
+        const token = getFromLocalStorage('token'); // Récupérer le token depuis le localStorage
+
+        const response = await axios.get(API_ROUTES.USER_PSEUDO, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`, // Inclure le token dans les en-têtes
             },
         });
 
         // Vérifiez si la réponse est correcte (status 200)
         if (response.status === 200) {
-            return response.data; // Retournez les détails de l'utilisateur
+            return { pseudo: response.data.pseudo }; // Retourner le pseudo
         } else {
             return {
                 error: true,
-                message:
-                    "Erreur lors de la récupération des détails de l'utilisateur",
+                message: 'Erreur lors de la récupération du pseudo',
             };
         }
     } catch (error) {
         console.error(
-            "Erreur lors de la récupération des détails de l'utilisateur:",
+            'Erreur lors de la récupération du pseudo:',
             error.message
         );
         return {

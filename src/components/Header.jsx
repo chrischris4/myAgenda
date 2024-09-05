@@ -1,7 +1,7 @@
 import '../styles/Header.css';
 import React from 'react';
 
-function Header({ connectedUser }) {
+function Header({ connectedUser, userPseudo }) {
     const today = new Date();
     const options = {
         weekday: 'long',
@@ -27,7 +27,7 @@ function Header({ connectedUser }) {
                     src="https://i.ibb.co/wh7Hy6g/think-817844.png"
                     alt=""
                 />
-                <h2>UserName</h2>
+                <h2>{userPseudo || 'UserName'}</h2>
             </div>
         </div>
     );

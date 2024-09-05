@@ -6,6 +6,6 @@ const auth = require('../middleware/auth'); // Assurez-vous d'utiliser votre mid
 // Route pour créer un événement
 router.post('/', userController.createUser);
 router.post('/login', userController.login);
-router.get('/details', auth, userController.getUserDetails);
+router.get('/pseudo', auth, userController.getUserPseudo);
 
 module.exports = router;

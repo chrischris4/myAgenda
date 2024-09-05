@@ -63,22 +63,22 @@ exports.login = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
-exports.getUserDetails = async (req, res) => {
+exports.getUserPseudo = async (req, res) => {
     try {
-        const userId = req.auth.userId; // Récupérer userId du middleware auth
-        const user = await User.findById(userId).select('pseudo picture'); // Sélectionnez uniquement pseudo et picture
+        const userId = req.auth.userId; // Récupérer l'ID de l'utilisateur du middleware
+        const user = await User.findById(userId); // Trouver l'utilisateur dans la base de données
 
+        console.log(user);
         if (!user) {
-            return res.status(404).json({ error: 'Utilisateur non trouvé' });
+            return res.status(404).json({ message: 'Utilisateur non trouvé' });
         }
 
-        res.status(200).json(user); // Retournez les détails de l'utilisateur
+        res.json({ pseudo: user.pseudo }); // Renvoie le pseudo de l'utilisateur
     } catch (error) {
-        console.error(
-            "Erreur lors de la récupération des détails de l'utilisateur",
-            error
-        );
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({
+            message: "Erreur lors de la récupération de l'utilisateur",
+            error,
+        });
     }
 };
 

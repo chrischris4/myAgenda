@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { getEvents, logoutUser } from '../common';
-import { getAuthenticatedUser } from '../common'; // Correction du chemin d'import
+import {
+    getEvents,
+    logoutUser,
+    getAuthenticatedUser,
+    getUserPseudo,
+} from '../common';
 import Events from '../components/Events';
 import Calendar from '../components/Calendar';
-import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Modal from '../components/Modal';
 import Nav from '../components/Nav';
@@ -20,6 +23,7 @@ function Home() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [events, setEvents] = useState([]); // Stocke les événements
     const [topLink, setTopLink] = useState(false);
+    const [userPseudo, setUserPseudo] = useState('');
 
     // Fonction pour afficher ou masquer le lien en haut
     const showTopLink = () => {
@@ -59,7 +63,6 @@ function Home() {
     const handleLogout = () => {
         logoutUser(); // Efface les données d'authentification
         setConnectedUser(false); // Met à jour l'état de connexion
-        setEvents([]); // Réinitialise la liste des événements si nécessaire
     };
 
     // Vérifie si l'utilisateur est authentifié et récupère les événements
@@ -70,19 +73,25 @@ function Home() {
             if (authenticated && user.token) {
                 setConnectedUser(true); // Met à jour l'état si l'utilisateur est connecté
 
+                // Récupérer les événements ici
                 const fetchEvents = async () => {
-                    // Passez le token à getEvents
-                    const response = await getEvents(user.token);
+                    const response = await getEvents(); // Appel à getEvents
                     if (!response.error) {
-                        setEvents(response.events); // Met à jour la liste des événements
+                        setEvents(response.events); // Met à jour les événements
                     } else {
                         console.error(response.message);
                     }
                 };
 
-                fetchEvents(); // Récupère les événements après avoir vérifié l'authentification
+                fetchEvents(); // Appeler pour récupérer les événements après avoir vérifié l'authentification
+
+                const pseudoResponse = await getUserPseudo();
+                if (!pseudoResponse.error) {
+                    setUserPseudo(pseudoResponse.pseudo);
+                }
             } else {
                 setConnectedUser(false); // Si l'utilisateur n'est pas connecté
+                setEvents([]); // Réinitialiser les événements si non connecté
             }
         };
 
@@ -127,6 +136,7 @@ function Home() {
     return (
         <div className="home">
             <Header
+                userPseudo={userPseudo}
                 onShowModalClick={section => {
                     setShowModal(true);
                     setActiveModalSection(section);
@@ -169,7 +179,6 @@ function Home() {
                     keyboard_arrow_up
                 </span>
             </div>
-            <Footer />
         </div>
     );
 }

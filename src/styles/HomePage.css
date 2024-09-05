@@ -1,37 +1,72 @@
+@font-face {
+    font-family: 'Norms';
+    src: url('../fonts/TT\ Norms\ Pro\ Regular.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NormsBold';
+    src: url('../fonts/TT\ Norms\ Pro\ Bold.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .homePage {
     display: flex;
     align-items: center;
+    justify-content: center;
+}
+
+.homePageOverlay {
+    border-radius: 20px;
+    top: 10vh;
+    width: 95%;
+    height: 80vh;
+    position: fixed;
+    background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0)) 0%;
 }
 
 .homePageImgContainer {
+    opacity: 0.8;
+    z-index: -1;
     display: flex;
     justify-content: center;
-    width: 50%;
+    position: fixed;
+    top: 10vh;
+    width: 95%;
+    height: 80vh;
 }
 
 .homePageImg {
-    width: 80%;
+    border-radius: 20px;
+    width: 100%;
+    object-fit: cover;
 }
 
 .homePageAbout {
+    position: absolute;
+    left: 7.5%;
+    top: 30vh;
     padding: 20px;
-    background-color: #f3ebec;
-    border-radius: 20px;
     color: #11151d;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 
     h2 {
+        font-size: 55px;
+        font-family: 'NormsBold', sans-serif;
         margin-top: 10px;
         margin-bottom: 20px;
     }
 
     h3 {
+        font-family: 'Norms', sans-serif;
+        font-size: 30px;
         width: 80%;
         margin: 0;
-        margin-bottom: 10px;
-        font-weight: 300;
+        margin-bottom: 30px;
     }
 }
 
