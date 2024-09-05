@@ -7,6 +7,7 @@ import {
 } from '../common';
 import Events from '../components/Events';
 import Calendar from '../components/Calendar';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Modal from '../components/Modal';
 import Nav from '../components/Nav';
@@ -179,6 +180,7 @@ function Home() {
                     keyboard_arrow_up
                 </span>
             </div>
+            <Footer />
         </div>
     );
 }

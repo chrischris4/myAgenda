@@ -1,3 +1,24 @@
+@font-face {
+    font-family: 'Norms';
+    src: url('../fonts/TT\ Norms\ Pro\ Regular.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NormsBold';
+    src: url('../fonts/TT\ Norms\ Pro\ Bold.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NormsLight';
+    src: url('../fonts/TT\ Norms\ Pro\ Light.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .header {
     position: relative;
     margin: auto;
@@ -30,14 +51,16 @@
 
 .headerTitleContent {
     h1 {
+        font-family: 'NormsBold';
         margin-left: 20px;
         margin-bottom: 0;
     }
 
     h2 {
+        font-family: 'NormsLight';
         margin-top: 5px;
         margin-left: 20px;
-        font-weight: 200;
+        font-weight: 100;
     }
 }
 
@@ -49,6 +72,7 @@
     margin-right: 20px;
 
     h2 {
+        font-weight: 100;
         margin: 0;
         margin-bottom: 20px;
     }

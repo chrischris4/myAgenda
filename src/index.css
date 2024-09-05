@@ -1,5 +1,12 @@
+@font-face {
+    font-family: 'Norms';
+    src: url('./fonts/TT\ Norms\ Pro\ Regular.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
-    font-family: 'Nunito';
+    font-family: 'Norms';
 }
 
 body {
@@ -20,4 +27,10 @@ button {
     background-color: #11151d;
     border: 2px solid #11151d;
     color: white;
+    transform: translateY(0%);
+    transition: transform 0.2s ease-in-out;
+}
+
+button:hover {
+    transform: translateY(-5%);
 }
