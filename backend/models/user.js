@@ -1,11 +1,13 @@
-const { type } = require("@testing-library/user-event/dist/type");
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema = new mongoose.Schema({
-  pseudo: { type: String, required: true },
-  email: { type: String, required: true },
-  password: { type: String, required:   true },
-  picture: { type: String, required: true },
+    pseudo: { type: String, required: false },
+    email: { type: String, required: true },
+    password: { type: String, required: true },
+    picture: { type: String, required: false },
 });
 
-module.exports = mongoose.model("User", userSchema);
+userSchema.plugin(uniqueValidator);
+
+module.exports = mongoose.model('User', userSchema);

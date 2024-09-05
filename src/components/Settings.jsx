@@ -1,5 +1,5 @@
 import '../styles/Settings.css';
-function Settings() {
+function Settings({ onLogout }) {
     return (
         <div className="settings">
             <h2>Thème</h2>
@@ -54,7 +54,7 @@ function Settings() {
                     <h3>Modifier mon profil</h3>
                 </div>
             </div>
-            <button>Se deconnecter</button>
+            <button onClick={onLogout}>Se deconnecter</button>
         </div>
     );
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { getEvents } from '../common';
+import { getEvents, logoutUser } from '../common';
+import { getAuthenticatedUser } from '../common'; // Correction du chemin d'import
 import Events from '../components/Events';
 import Calendar from '../components/Calendar';
 import Footer from '../components/Footer';
@@ -15,14 +16,14 @@ function Home() {
     const [activeTab, setActiveTab] = useState('Calendrier');
     const [showModal, setShowModal] = useState(false);
     const [activeModalSection, setActiveModalSection] = useState('');
-    const [connectedUser, setConnectedUser] = useState(false);
+    const [connectedUser, setConnectedUser] = useState(false); // Gère la connexion
     const [selectedDate, setSelectedDate] = useState(null);
-    const [events, setEvents] = useState([]);
+    const [events, setEvents] = useState([]); // Stocke les événements
     const [topLink, setTopLink] = useState(false);
 
+    // Fonction pour afficher ou masquer le lien en haut
     const showTopLink = () => {
         if (window.scrollY > 0) {
-            // Ajustez ce seuil selon vos besoins
             setTopLink(true);
         } else {
             setTopLink(false);
@@ -33,10 +34,7 @@ function Home() {
         window.addEventListener('scroll', showTopLink);
     }, []);
 
-    const isUserConnected = () => {
-        setConnectedUser(true);
-    };
-
+    // Gère la sélection de date dans le calendrier
     const handleDateClick = date => {
         setSelectedDate(date);
         setActiveTab('Jour');
@@ -58,21 +56,40 @@ function Home() {
         });
     };
 
+    const handleLogout = () => {
+        logoutUser(); // Efface les données d'authentification
+        setConnectedUser(false); // Met à jour l'état de connexion
+        setEvents([]); // Réinitialise la liste des événements si nécessaire
+    };
+
+    // Vérifie si l'utilisateur est authentifié et récupère les événements
     useEffect(() => {
-        if (connectedUser) {
-            const fetchEvents = async () => {
-                const response = await getEvents();
-                if (!response.error) {
-                    setEvents(response.events);
-                } else {
-                    console.error(response.message);
-                }
-            };
+        const checkUserAuthentication = async () => {
+            const { authenticated, user } = await getAuthenticatedUser();
 
-            fetchEvents();
-        }
-    }, [connectedUser]);
+            if (authenticated && user.token) {
+                setConnectedUser(true); // Met à jour l'état si l'utilisateur est connecté
 
+                const fetchEvents = async () => {
+                    // Passez le token à getEvents
+                    const response = await getEvents(user.token);
+                    if (!response.error) {
+                        setEvents(response.events); // Met à jour la liste des événements
+                    } else {
+                        console.error(response.message);
+                    }
+                };
+
+                fetchEvents(); // Récupère les événements après avoir vérifié l'authentification
+            } else {
+                setConnectedUser(false); // Si l'utilisateur n'est pas connecté
+            }
+        };
+
+        checkUserAuthentication(); // Appelle la fonction au chargement de la page
+    }, []);
+
+    // Rend l'onglet actif (Calendrier, Rendez-vous, etc.)
     const renderActiveTab = () => {
         switch (activeTab) {
             case 'Calendrier':
@@ -88,7 +105,7 @@ function Home() {
                     />
                 );
             case 'Paramètres':
-                return <Settings />;
+                return <Settings onLogout={handleLogout} />;
             case 'Jour':
                 return (
                     <SelectedDaySection
@@ -99,7 +116,7 @@ function Home() {
                         date={selectedDate}
                         events={events}
                         onPrevDay={handlePrevDay} // Passer la fonction pour le jour précédent
-                        onNextDay={handleNextDay} //
+                        onNextDay={handleNextDay} // Passer la fonction pour le jour suivant
                     />
                 );
             default:
@@ -114,8 +131,8 @@ function Home() {
                     setShowModal(true);
                     setActiveModalSection(section);
                 }}
-                setConnectedUser={isUserConnected}
-                connectedUser={connectedUser}
+                setConnectedUser={setConnectedUser}
+                connectedUser={connectedUser} // Indique si l'utilisateur est connecté
             />
             {!connectedUser && (
                 <HomePage
@@ -134,7 +151,7 @@ function Home() {
             {showModal && (
                 <div className="modalOverlay">
                     <Modal
-                        setConnectedUser={isUserConnected}
+                        setConnectedUser={setConnectedUser}
                         onClose={() => setShowModal(false)}
                         activeSection={activeModalSection}
                         onShowModalClick={section => {

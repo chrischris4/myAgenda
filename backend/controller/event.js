@@ -1,14 +1,13 @@
 const Event = require('../models/event');
-
 exports.createEvent = async (req, res) => {
     try {
-        const { date, title, description } = req.body;
+        const { date, title, description, userId } = req.body; // Récupérer userId des données de la requête
 
-        // Convertir la date en type Date si nécessaire
         const newEvent = new Event({
             date: new Date(date),
             title,
             description,
+            userId, // Ajout de l'userId à l'événement
         });
 
         await newEvent.save();
@@ -22,11 +21,12 @@ exports.createEvent = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-
 exports.getEvents = async (req, res) => {
     try {
-        // Rechercher tous les événements dans la collection
-        const events = await Event.find({});
+        const { userId } = req.query; // Récupérer userId des paramètres de requête
+
+        // Rechercher les événements associés à l'userId
+        const events = await Event.find({ userId });
 
         // Retourner les événements sous forme de JSON
         res.status(200).json(events);
@@ -47,3 +47,16 @@ const checkEvents = async () => {
     }
 };
 checkEvents();
+
+// (async () => {
+//     try {
+//         // Supprimez tous les event existants
+//         await Event.deleteMany({});
+//         console.log('Tous les event existants ont été supprimés.');
+//     } catch (error) {
+//         console.error(
+//             'Erreur lors de la suppression des event au démarrage:',
+//             error
+//         );
+//     }
+// })();

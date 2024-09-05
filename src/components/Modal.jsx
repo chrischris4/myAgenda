@@ -1,6 +1,6 @@
 import '../styles/Modal.css';
 import { useState } from 'react';
-import { createEvent, createUser } from '../common';
+import { createEvent, createUser, loginUser } from '../common';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -67,9 +67,26 @@ function Modal({ onClose, activeSection, onShowModalClick, setConnectedUser }) {
     const handleSubmitSignIn = async e => {
         e.preventDefault();
 
-        // Si la connexion réussie, mettez à jour l'état de connexion
-        setConnectedUser(true);
-        onClose(); // Fermez la modal après connexion
+        const userData = {
+            email: document.getElementById('emailSignIn').value, // Récupérer l'email
+            password: document.getElementById('passwordSignIn').value, // Récupérer le mot de passe
+        };
+
+        const response = await loginUser(userData);
+
+        if (!response.error) {
+            console.log('Connexion réussie:', response);
+
+            // Stocker le token JWT dans le localStorage
+            localStorage.setItem('token', response.token);
+
+            setConnectedUser(true); // Mettre à jour l'état pour indiquer que l'utilisateur est connecté
+            onClose(); // Fermer la modal après connexion
+        } else {
+            // Gérer les erreurs de connexion
+            console.error(response.error);
+            alert('Erreur de connexion: ' + response.error);
+        }
     };
 
     return (
@@ -138,9 +155,14 @@ function Modal({ onClose, activeSection, onShowModalClick, setConnectedUser }) {
                     <h2>Se connecter</h2>
                     <form onSubmit={handleSubmitSignIn}>
                         <label htmlFor="">E mail</label>
-                        <input type="text" name="" id="email" required />
+                        <input type="text" name="" id="emailSignIn" required />
                         <label htmlFor="">Mot de passe</label>
-                        <input type="password" name="" id="password" required />
+                        <input
+                            type="password"
+                            name=""
+                            id="passwordSignIn"
+                            required
+                        />
                         <button type="submit">Connexion</button>
                     </form>
                 </div>

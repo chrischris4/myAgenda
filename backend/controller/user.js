@@ -1,25 +1,31 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const bcrypt = require('bcrypt');
 
 exports.createUser = async (req, res) => {
     try {
-        const { pseudo, email, password, picture } = req.body;
+        // Hash du mot de passe en utilisant await
+        const hash = await bcrypt.hash(req.body.password, 10);
 
+        // Création du nouvel utilisateur avec le mot de passe hashé
         const newUser = new User({
-            pseudo,
-            email,
-            password,
-            picture,
+            pseudo: req.body.pseudo,
+            email: req.body.email,
+            password: hash, // Utilisation du mot de passe hashé
+            picture: req.body.picture,
         });
 
+        // Sauvegarde de l'utilisateur dans la base de données
         await newUser.save();
 
+        // Réponse en cas de succès
         res.status(201).json({
             message: 'User créé avec succès',
-            event: newUser,
+            user: newUser, // Correction de 'event' en 'user'
         });
     } catch (error) {
+        // Gestion des erreurs
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
@@ -57,6 +63,25 @@ exports.login = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
+exports.getUserDetails = async (req, res) => {
+    try {
+        const userId = req.auth.userId; // Récupérer userId du middleware auth
+        const user = await User.findById(userId).select('pseudo picture'); // Sélectionnez uniquement pseudo et picture
+
+        if (!user) {
+            return res.status(404).json({ error: 'Utilisateur non trouvé' });
+        }
+
+        res.status(200).json(user); // Retournez les détails de l'utilisateur
+    } catch (error) {
+        console.error(
+            "Erreur lors de la récupération des détails de l'utilisateur",
+            error
+        );
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 const checkUsers = async () => {
     try {
         // Recherchez tous les events dans la collection
@@ -68,3 +93,16 @@ const checkUsers = async () => {
     }
 };
 checkUsers();
+
+// (async () => {
+//     try {
+//         // Supprimez tous les jeux existants
+//         await User.deleteMany({});
+//         console.log('Tous les users existants ont été supprimés.');
+//     } catch (error) {
+//         console.error(
+//             'Erreur lors de la suppression des users au démarrage:',
+//             error
+//         );
+//     }
+// })();
