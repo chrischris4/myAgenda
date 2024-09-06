@@ -27,7 +27,7 @@
     display: flex;
     justify-content: flex-end;
     width: 90%;
-    height: 120px;
+    height: 150px;
 }
 
 .headerTitle {
@@ -37,11 +37,9 @@
     justify-content: space-between;
     align-items: center;
     background-color: #222d41;
-    border-right: 4px solid #222d41;
-    border-left: 4px solid #222d41;
     border-radius: 20px;
     height: 100%;
-    width: 65.5%;
+    width: 66%;
     transition: width 0.4s ease-in-out;
 }
 
@@ -50,6 +48,10 @@
 }
 
 .headerTitleContent {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     h1 {
         font-family: 'NormsBold';
         margin-left: 20px;
@@ -81,12 +83,11 @@
 .headerUser {
     transform: translateX(200%);
     background-color: black;
-    border: 4px solid black;
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 31.5%;
+    width: 32%;
     transition: transform 0.4s ease-in-out;
 
     h2 {

@@ -46,32 +46,33 @@ function Events({ onShowModalClick }) {
                 >
                     add
                 </span>
-                <h2>Ajouter un Rendez-vous</h2>
+                <h3>Ajouter un Rendez-vous</h3>
             </div>
             <div className="eventsContent">
                 {events.length > 0 ? (
                     events.map(event => (
                         <div key={event._id} className="event">
-                            <h2>
-                                {new Date(event.date).toLocaleDateString(
-                                    'fr-FR'
-                                )}
-                            </h2>
-                            <h3>{event.title}</h3>
-                            <div className="eventLine"></div>
-                            <p>{event.description}</p>
-                            <span
-                                className="material-symbols-rounded iconEvent modify"
-                                onClick={handleModifyClick}
-                            >
-                                edit_square
-                            </span>
-                            <span
-                                className="material-symbols-rounded iconEvent delete"
-                                onClick={handleDeleteClick}
-                            >
-                                delete
-                            </span>
+                            <div className="eventContent">
+                                <h2>
+                                    {new Date(event.date).toLocaleDateString(
+                                        'fr-FR'
+                                    )}
+                                </h2>
+                                <h3>{event.title}</h3>
+                                <p>{event.description}</p>
+                                <span
+                                    className="material-symbols-rounded iconEvent modify"
+                                    onClick={handleModifyClick}
+                                >
+                                    edit_square
+                                </span>
+                                <span
+                                    className="material-symbols-rounded iconEvent delete"
+                                    onClick={handleDeleteClick}
+                                >
+                                    delete
+                                </span>
+                            </div>
                         </div>
                     ))
                 ) : (

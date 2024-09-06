@@ -33,7 +33,7 @@
 .month {
     display: flex;
     flex-direction: column;
-    width: 32%;
+    width: 24%;
     border-radius: 20px;
     margin-top: 20px;
     background-color: #11151d;
@@ -58,8 +58,8 @@
     margin-bottom: 7px;
     justify-content: center;
     align-items: center;
-    height: 35px;
-    width: 35px;
+    height: 30px;
+    width: 30px;
     border-radius: 50%;
     border: 2px solid #11151d;
     background-color: white;

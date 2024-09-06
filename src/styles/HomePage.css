@@ -48,7 +48,7 @@
 .homePageAbout {
     position: absolute;
     left: 7.5%;
-    top: 30vh;
+    top: 35vh;
     padding: 20px;
     color: #11151d;
     display: flex;
@@ -65,7 +65,7 @@
     h3 {
         font-family: 'Norms', sans-serif;
         font-size: 30px;
-        width: 80%;
+        width: 70%;
         margin: 0;
         margin-bottom: 30px;
     }

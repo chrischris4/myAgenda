@@ -39,7 +39,7 @@ function SelectedDaySection({
                         >
                             arrow_back_ios
                         </span>
-                        <h2>{formattedDate}</h2>
+                        <h3>{formattedDate}</h3>
                         <span
                             className="material-symbols-rounded"
                             onClick={onNextDay} // Gérer le clic pour le jour suivant
@@ -52,7 +52,7 @@ function SelectedDaySection({
                     <span className="material-symbols-rounded iconEvent">
                         add
                     </span>
-                    <h2>Ajouter un Rendez-vous</h2>
+                    <h3>Ajouter un Rendez-vous</h3>
                 </div>
             </div>
             <div className="selectedDay">
