@@ -15,9 +15,10 @@ import Settings from '../components/Settings';
 import '../styles/Home.css';
 import HomePage from '../components/HomePage';
 import SelectedDaySection from '../components/SelectedDaySection';
+import Dashboard from '../components/Dashboard';
 
 function Home() {
-    const [activeTab, setActiveTab] = useState('Calendrier');
+    const [activeTab, setActiveTab] = useState('Dashboard');
     const [showModal, setShowModal] = useState(false);
     const [activeModalSection, setActiveModalSection] = useState('');
     const [connectedUser, setConnectedUser] = useState(false); // Gère la connexion
@@ -102,6 +103,16 @@ function Home() {
     // Rend l'onglet actif (Calendrier, Rendez-vous, etc.)
     const renderActiveTab = () => {
         switch (activeTab) {
+            case 'Dashboard':
+                return (
+                    <Dashboard
+                        onShowModalClick={section => {
+                            setShowModal(true);
+                            setActiveModalSection(section);
+                        }}
+                        events={events}
+                    />
+                );
             case 'Calendrier':
                 return <Calendar onDateClick={handleDateClick} />;
             case 'Rendez-vous':

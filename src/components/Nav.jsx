@@ -3,8 +3,7 @@ import React from 'react';
 import '../styles/Nav.css';
 
 function Nav({ activeTab, setActiveTab }) {
-
-    const handleNavClick = (tab) => {
+    const handleNavClick = tab => {
         setActiveTab(tab);
     };
 
@@ -12,24 +11,36 @@ function Nav({ activeTab, setActiveTab }) {
         <div className="nav">
             <nav>
                 <ul>
-                    <li 
+                    <li
                         className={`link ${activeTab === 'Calendrier' ? 'selected' : ''}`}
                         onClick={() => handleNavClick('Calendrier')}
                     >
-                        Calendrier
+                        Calendriers
                     </li>
-                    <li 
+                    <li
                         className={`link ${activeTab === 'Rendez-vous' ? 'selected' : ''}`}
                         onClick={() => handleNavClick('Rendez-vous')}
                     >
-                        Rendez-vous
+                        Evenements
                     </li>
-                    <li 
-                        className={`link ${activeTab === 'Paramètres' ? 'selected' : ''}`}
-                        onClick={() => handleNavClick('Paramètres')}
-                    >
-                        Paramètres
-                    </li>
+                    <div className="navSection">
+                        <li
+                            className={`link linkSection ${activeTab === 'Paramètres' ? 'selected' : ''}`}
+                            onClick={() => handleNavClick('Paramètres')}
+                        >
+                            <span className="material-symbols-rounded">
+                                settings
+                            </span>
+                        </li>
+                        <li
+                            className={`link linkSection ${activeTab === 'Dashboard' ? 'selected' : ''}`}
+                            onClick={() => handleNavClick('Dashboard')}
+                        >
+                            <span className="material-symbols-rounded">
+                                home
+                            </span>
+                        </li>
+                    </div>
                 </ul>
             </nav>
         </div>

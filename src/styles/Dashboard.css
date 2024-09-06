@@ -1,0 +1,78 @@
+.dashboard {
+    display: flex;
+    h3 {
+        color: black;
+    }
+}
+
+.actualMonth,
+.nextEvents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    h2 {
+        margin-top: 0;
+    }
+}
+
+.dashboardMonth {
+    height: fit-content;
+    background-color: #11151d;
+    border-radius: 20px;
+    width: 325px;
+}
+
+.nextEventsTitle {
+    display: flex;
+    align-items: center;
+}
+
+.nextEventsContent {
+    width: 80%;
+    position: relative;
+    max-height: 400px;
+    overflow: auto;
+}
+
+.nextEventsContent::-webkit-scrollbar {
+    width: 12px; /* Largeur de la scrollbar */
+}
+
+/* Personnaliser l'arrière-plan de la scrollbar */
+.nextEventsContent::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Couleur de la piste (track) */
+    border-radius: 10px;
+}
+
+/* Personnaliser le thumb (le curseur qu'on déplace) */
+.nextEventsContent::-webkit-scrollbar-thumb {
+    background-color: #888; /* Couleur du curseur */
+    border-radius: 10px;
+    border: 3px solid #f1f1f1; /* Ajoute un espace autour du curseur */
+}
+
+/* Changement de couleur au hover */
+.nextEventsContent::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Couleur au survol */
+}
+
+.nextEventsBtn {
+    margin-left: 20px;
+    background-color: #11151d;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nextEvent {
+    margin: auto;
+    margin-bottom: 20px;
+    width: 90%;
+    h3 {
+        color: white;
+    }
+}

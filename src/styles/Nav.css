@@ -35,3 +35,20 @@ nav {
         transform: translateY(-5%);
     }
 }
+
+.navSection {
+    width: 32%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.linkSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 47%;
+}
+
+.selected {
+    background-color: #11151d;
+}
