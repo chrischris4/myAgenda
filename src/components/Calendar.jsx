@@ -1,6 +1,6 @@
 import '../styles/Calendar.css';
 
-function Calendar({ onDateClick }) {
+function Calendar({ onDateClick, events }) {
     const months = [
         'January',
         'February',
@@ -21,11 +21,24 @@ function Calendar({ onDateClick }) {
         return new Date(year, month + 1, 0).getDate(); // Le +1 est nécessaire car les mois sont indexés de 0 à 11
     };
 
+    const hasEventOnDay = (day, monthIndex) => {
+        return events.some(event => {
+            const eventDate = new Date(event.date);
+            return (
+                eventDate.getFullYear() === 2024 &&
+                eventDate.getMonth() === monthIndex &&
+                eventDate.getDate() === day
+            );
+        });
+    };
+
     const renderDays = monthIndex => {
         const days = getDaysInMonth(monthIndex, 2024);
         let daysArray = [];
         for (let i = 1; i <= days; i++) {
-            const date = new Date(2024, monthIndex, i); // Créer une date complète
+            const date = new Date(2024, monthIndex, i);
+            const eventExists = hasEventOnDay(i, monthIndex);
+
             daysArray.push(
                 <div
                     key={i}
@@ -33,6 +46,9 @@ function Calendar({ onDateClick }) {
                     onClick={() => onDateClick(date)} // Appeler la fonction onDateClick avec la date
                 >
                     {i}
+                    {eventExists && (
+                        <span className="eventDot"></span> // Ajouter une pastille si un événement existe
+                    )}
                 </div>
             );
         }

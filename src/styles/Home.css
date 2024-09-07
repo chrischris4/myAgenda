@@ -54,3 +54,12 @@
 .showTopLink {
     transform: translateX(0%);
 }
+
+.fakeNav {
+    display: none;
+    height: 84.8px;
+}
+
+.fakeNavOn {
+    display: flex;
+}

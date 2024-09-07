@@ -25,9 +25,10 @@ function Home() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [events, setEvents] = useState([]); // Stocke les événements
     const [topLink, setTopLink] = useState(false);
+    const [stuckNav, setStuckNav] = useState(false);
     const [userPseudo, setUserPseudo] = useState('');
 
-    // Fonction pour afficher ou masquer le lien en haut
+    // Fonction pour afficher ou masquer le scrollToTop
     const showTopLink = () => {
         if (window.scrollY > 0) {
             setTopLink(true);
@@ -36,8 +37,21 @@ function Home() {
         }
     };
 
+    const stuckNavOn = () => {
+        if (window.scrollY > 168) {
+            setStuckNav(true);
+        } else {
+            setStuckNav(false);
+        }
+    };
+
     useEffect(() => {
         window.addEventListener('scroll', showTopLink);
+        window.addEventListener('scroll', stuckNavOn);
+        return () => {
+            window.removeEventListener('scroll', showTopLink);
+            window.removeEventListener('scroll', stuckNavOn);
+        };
     }, []);
 
     // Gère la sélection de date dans le calendrier
@@ -111,10 +125,13 @@ function Home() {
                             setActiveModalSection(section);
                         }}
                         events={events}
+                        stuckNav={stuckNav}
                     />
                 );
             case 'Calendrier':
-                return <Calendar onDateClick={handleDateClick} />;
+                return (
+                    <Calendar onDateClick={handleDateClick} events={events} />
+                );
             case 'Rendez-vous':
                 return (
                     <Events
@@ -166,10 +183,18 @@ function Home() {
             )}
             {connectedUser && (
                 <div className="homeContent">
-                    <Nav activeTab={activeTab} setActiveTab={setActiveTab} />
+                    <Nav
+                        activeTab={activeTab}
+                        setActiveTab={setActiveTab}
+                        stuckNav={stuckNav}
+                    />
+                    <div
+                        className={`fakeNav ${stuckNav ? 'fakeNavOn' : ''}`}
+                    ></div>
                     <div className="homeSection">{renderActiveTab()}</div>
                 </div>
             )}
+
             {showModal && (
                 <div className="modalOverlay">
                     <Modal

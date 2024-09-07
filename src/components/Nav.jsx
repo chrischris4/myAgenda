@@ -1,14 +1,14 @@
 // src/components/Nav.js
-import React from 'react';
+import { React } from 'react';
 import '../styles/Nav.css';
 
-function Nav({ activeTab, setActiveTab }) {
+function Nav({ activeTab, setActiveTab, stuckNav }) {
     const handleNavClick = tab => {
         setActiveTab(tab);
     };
 
     return (
-        <div className="nav">
+        <div className={`nav ${stuckNav ? 'stuckNav' : ''}`}>
             <nav>
                 <ul>
                     <li

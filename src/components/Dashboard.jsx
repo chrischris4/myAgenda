@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getEvents } from '../common';
 import '../styles/Dashboard.css';
 
-function Dashboard({ onShowModalClick }) {
+function Dashboard({ onShowModalClick, stuckNav }) {
     const [currentMonthDays, setCurrentMonthDays] = useState([]);
     const [monthName, setMonthName] = useState('');
 
@@ -64,9 +64,29 @@ function Dashboard({ onShowModalClick }) {
         onShowModalClick('modalModifyEvent');
     };
 
+    // Fonction pour vérifier si un événement existe pour un jour donné
+
+    const hasEventOnDay = day => {
+        const today = new Date();
+        const currentYear = today.getFullYear();
+        const currentMonth = today.getMonth(); // Mois actuel (de 0 à 11)
+
+        return events.some(event => {
+            const eventDate = new Date(event.date);
+            return (
+                eventDate.getFullYear() === currentYear &&
+                eventDate.getMonth() === currentMonth &&
+                eventDate.getDate() === day
+            );
+        });
+    };
+
     return (
         <div className="dashboard">
-            <div className="actualMonth">
+            <div
+                className={`fakeActualMonth ${stuckNav ? 'fakeActualMonthOn' : ''}`}
+            ></div>
+            <div className={`actualMonth ${stuckNav ? 'actualMonthOn' : ''}`}>
                 <h3>Calendrier du moi</h3>
                 <div className="dashboardMonth">
                     <div className="monthContent">
@@ -77,6 +97,9 @@ function Dashboard({ onShowModalClick }) {
                             {currentMonthDays.map(day => (
                                 <div key={day} className="day">
                                     {day}
+                                    {hasEventOnDay(day) && (
+                                        <div className="eventDot"></div>
+                                    )}
                                 </div>
                             ))}
                         </div>
@@ -84,7 +107,12 @@ function Dashboard({ onShowModalClick }) {
                 </div>
             </div>
             <div className="nextEvents">
-                <div className="nextEventsTitle">
+                <div
+                    className={`fakeTitle ${stuckNav ? 'fakeTitleOn' : ''}`}
+                ></div>
+                <div
+                    className={`nextEventsTitle ${stuckNav ? 'stuckTitle' : ''}`}
+                >
                     <h3>Prochains Rendez-vous</h3>
                     <div className="nextEventsBtn">
                         <span className="material-symbols-rounded">add</span>
@@ -121,8 +149,6 @@ function Dashboard({ onShowModalClick }) {
                         <p>Aucun événement trouvé</p>
                     )}
                 </div>
-
-                {/* Section pour les prochains événements */}
             </div>
         </div>
     );
