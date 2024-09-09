@@ -10,6 +10,8 @@ function Modal({
     onShowModalClick,
     setConnectedUser,
     addEvent,
+    setLoginValidate,
+    setEventValidate,
 }) {
     const [startDate, setStartDate] = useState(new Date());
     const [title, setTitle] = useState('');
@@ -70,13 +72,14 @@ function Modal({
                 description,
                 _id: response.eventId,
             });
-            // Traiter le succès, fermer la modal, ou actualiser la liste des événements
+            setEventValidate(true);
             onClose();
         } else {
             // Gérer l'erreur
             console.error(response.message);
         }
     };
+
     const handleSubmitSignIn = async e => {
         e.preventDefault();
 
@@ -93,6 +96,7 @@ function Modal({
             // Stocker le token JWT dans le localStorage
             localStorage.setItem('token', response.token);
 
+            setLoginValidate(true);
             setConnectedUser(true);
             window.scrollTo({ top: 0 });
             onClose(); // Fermer la modal après connexion

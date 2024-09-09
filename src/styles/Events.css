@@ -78,6 +78,8 @@
 }
 
 .event {
+    padding: 20px;
+    box-sizing: border-box;
     margin-bottom: 20px;
     background-color: #11151d;
     border-radius: 20px;
@@ -88,22 +90,27 @@
     align-items: flex-start;
 
     h3 {
-        font-size: 18px;
+        font-size: 22px;
         margin: 0;
         margin-right: 50px;
     }
 
     p {
-        border-top: 2px solid #293346;
-        padding-top: 10px;
-        margin-bottom: 0;
+        margin-top: 10px;
+        font-size: 18px;
+    }
+
+    h4 {
+        margin: 0;
+        margin-top: 10px;
     }
 }
 
-.eventContent {
-    box-sizing: border-box;
+.eventDescription {
     width: 100%;
-    padding: 20px;
+    border-top: 2px solid #293346;
+    padding-top: 10px;
+    margin-bottom: 0;
 }
 
 .iconEvent {
@@ -111,8 +118,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 25px;
-    height: 25px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     background-color: #11151d;
     color: white;
@@ -126,7 +133,7 @@
 
 .delete {
     position: absolute;
-    top: 60px;
+    top: 55px;
     right: 20px;
 }
 

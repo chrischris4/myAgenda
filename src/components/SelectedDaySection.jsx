@@ -67,14 +67,16 @@ function SelectedDaySection({
                 <div className="selectedDayEvents">
                     {eventsForSelectedDate.length > 0 ? (
                         eventsForSelectedDate.map(event => (
-                            <div key={event._id} className="selectedDayEvent">
+                            <div key={event._id} className="event">
                                 <h3>{event.title}</h3>
                                 <p className="eventDate">
                                     {new Date(event.date).toLocaleTimeString(
                                         'fr-FR'
                                     )}
                                 </p>
-                                <p>{event.description}</p>
+                                <p className="eventDescription">
+                                    {event.description}
+                                </p>
                                 <span
                                     className="material-symbols-rounded iconEvent modify"
                                     onClick={handleModifyClick}

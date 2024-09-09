@@ -27,6 +27,8 @@ function Home() {
     const [topLink, setTopLink] = useState(false);
     const [stuckNav, setStuckNav] = useState(false);
     const [userPseudo, setUserPseudo] = useState('');
+    const [loginValidate, setLoginValidate] = useState('');
+    const [eventValidate, setEventValidate] = useState('');
 
     const addEvent = event => {
         setEvents(prevEvents => [...prevEvents, event]);
@@ -48,6 +50,18 @@ function Home() {
             setStuckNav(false);
         }
     };
+
+    useEffect(() => {
+        if (loginValidate || eventValidate) {
+            const timer = setTimeout(() => {
+                setLoginValidate(false);
+                setEventValidate(false);
+            }, 2000);
+
+            // Cleanup pour éviter des effets de bord
+            return () => clearTimeout(timer);
+        }
+    }, [loginValidate, eventValidate]); // Déclenchement à chaque changement de loginValidate
 
     useEffect(() => {
         window.addEventListener('scroll', showTopLink);
@@ -131,6 +145,7 @@ function Home() {
                         }}
                         events={events}
                         stuckNav={stuckNav}
+                        onDateClick={handleDateClick}
                     />
                 );
             case 'Calendrier':
@@ -211,6 +226,8 @@ function Home() {
                             setActiveModalSection(section);
                         }}
                         addEvent={addEvent}
+                        setLoginValidate={setLoginValidate}
+                        setEventValidate={setEventValidate}
                     />
                 </div>
             )}
@@ -223,6 +240,16 @@ function Home() {
                 </span>
             </div>
             <Footer />
+            <div
+                className={`alertValidate ${loginValidate ? 'showAlertValidate' : ''}`}
+            >
+                Bienvenue !
+            </div>
+            <div
+                className={`alertValidate ${eventValidate ? 'showAlertValidate' : ''}`}
+            >
+                Evenement crée avec succée !
+            </div>
         </div>
     );
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getEvents } from '../common';
 import '../styles/Dashboard.css';
 
-function Dashboard({ onShowModalClick, stuckNav }) {
+function Dashboard({ onShowModalClick, stuckNav, onDateClick }) {
     const [currentMonthDays, setCurrentMonthDays] = useState([]);
     const [monthName, setMonthName] = useState('');
 
@@ -64,8 +64,11 @@ function Dashboard({ onShowModalClick, stuckNav }) {
         onShowModalClick('modalModifyEvent');
     };
 
-    // Fonction pour vérifier si un événement existe pour un jour donné
+    const handleCreateClick = () => {
+        onShowModalClick('modalCreateEvent');
+    };
 
+    // Fonction pour vérifier si un événement existe pour un jour donné
     const hasEventOnDay = day => {
         const today = new Date();
         const currentYear = today.getFullYear();
@@ -83,53 +86,70 @@ function Dashboard({ onShowModalClick, stuckNav }) {
 
     return (
         <div className="dashboard">
-            <div
-                className={`fakeActualMonth ${stuckNav ? 'fakeActualMonthOn' : ''}`}
-            ></div>
-            <div className={`actualMonth ${stuckNav ? 'actualMonthOn' : ''}`}>
-                <h3>Calendrier du moi</h3>
-                <div className="dashboardMonth">
-                    <div className="monthContent">
-                        <h2 className="monthTitle">
-                            {monthName} {new Date().getFullYear()}
-                        </h2>
-                        <div className="daysContainer">
-                            {currentMonthDays.map(day => (
-                                <div key={day} className="day">
-                                    {day}
-                                    {hasEventOnDay(day) && (
-                                        <div className="eventDot"></div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
+            <div className={`dashboardTitles ${stuckNav ? 'stuckTitles' : ''}`}>
+                <h3 className="dashboardTitle">Ce mois</h3>
+                <h3 className="dashboardTitle">Aujourd'hui</h3>
+                <div className="dashboardTitle">
+                    <h3>Prochains Rendez-vous</h3>
+                    <div className="nextEventsBtn">
+                        <span
+                            className="material-symbols-rounded"
+                            onClick={handleCreateClick}
+                        >
+                            add
+                        </span>
                     </div>
                 </div>
             </div>
-            <div className="nextEvents">
+            <div
+                className={`dashboardSections ${stuckNav ? 'dashboardSectionsScroll' : ''}`}
+            >
                 <div
-                    className={`fakeTitle ${stuckNav ? 'fakeTitleOn' : ''}`}
+                    className={`fakeMonth ${stuckNav ? 'fakeMonthOn' : ''}`}
                 ></div>
                 <div
-                    className={`nextEventsTitle ${stuckNav ? 'stuckTitle' : ''}`}
+                    className={`actualMonth ${stuckNav ? 'stuckDashboard' : ''}`}
                 >
-                    <h3>Prochains Rendez-vous</h3>
-                    <div className="nextEventsBtn">
-                        <span className="material-symbols-rounded">add</span>
+                    <div className="dashboardMonth">
+                        <div className="monthContent">
+                            <h2 className="monthTitle">
+                                {monthName} {new Date().getFullYear()}
+                            </h2>
+                            <div className="daysContainer">
+                                {currentMonthDays.map(day => (
+                                    <div key={day} className="day">
+                                        {day}
+                                        {hasEventOnDay(day) && (
+                                            <div className="eventDot"></div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className="nextEventsContent">
-                    {events.length > 0 ? (
-                        events.map(event => (
-                            <div key={event._id} className="event nextEvent">
-                                <div className="eventContent">
-                                    <h2>
+                <div
+                    className={`todayEvents ${stuckNav ? 'stuckTodayEvents' : ''}`}
+                >
+                    <p className="noEvents">Pas d'événement aujourd'hui</p>
+                </div>
+                <div className="nextEvents">
+                    <div className="nextEventsContent">
+                        {events.length > 0 ? (
+                            events.map(event => (
+                                <div
+                                    key={event._id}
+                                    className="event nextEvent"
+                                >
+                                    <h3>{event.title}</h3>
+                                    <h4>
                                         {new Date(
                                             event.date
                                         ).toLocaleDateString('fr-FR')}
-                                    </h2>
-                                    <h3>{event.title}</h3>
-                                    <p>{event.description}</p>
+                                    </h4>
+                                    <p className="eventDescription">
+                                        {event.description}
+                                    </p>
                                     <span
                                         className="material-symbols-rounded iconEvent modify"
                                         onClick={handleModifyClick}
@@ -143,11 +163,11 @@ function Dashboard({ onShowModalClick, stuckNav }) {
                                         delete
                                     </span>
                                 </div>
-                            </div>
-                        ))
-                    ) : (
-                        <p className="noEvents">Aucun événement trouvé</p>
-                    )}
+                            ))
+                        ) : (
+                            <p className="noEvents">Aucun événement trouvé</p>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

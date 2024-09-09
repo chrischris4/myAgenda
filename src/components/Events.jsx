@@ -41,11 +41,15 @@ function Events({ onShowModalClick }) {
     // Fonction pour regrouper et trier les événements par date
     const groupAndSortEventsByDate = events => {
         const groupedEvents = events.reduce((acc, event) => {
-            const date = new Date(event.date).toLocaleDateString('fr-FR'); // Formater la date
-            if (!acc[date]) {
-                acc[date] = [];
+            const eventDate = new Date(event.date);
+            if (isNaN(eventDate)) return acc; // Ignorer les événements avec des dates invalides
+
+            const formattedDate = `${eventDate.getFullYear()}-${eventDate.getMonth() + 1}-${eventDate.getDate()}`; // Groupement par année, mois, jour
+
+            if (!acc[formattedDate]) {
+                acc[formattedDate] = [];
             }
-            acc[date].push(event);
+            acc[formattedDate].push(event);
             return acc;
         }, {});
 
@@ -87,23 +91,23 @@ function Events({ onShowModalClick }) {
                             <h2>{formatDate(date)}</h2>
                             {events.map(event => (
                                 <div key={event._id} className="event">
-                                    <div className="eventContent">
-                                        <h3>{event.title}</h3>
-                                        <h4>10 : 10 - 11 : 10</h4>
-                                        <p>{event.description}</p>
-                                        <span
-                                            className="material-symbols-rounded iconEvent modify"
-                                            onClick={handleModifyClick}
-                                        >
-                                            edit_square
-                                        </span>
-                                        <span
-                                            className="material-symbols-rounded iconEvent delete"
-                                            onClick={handleDeleteClick}
-                                        >
-                                            delete
-                                        </span>
-                                    </div>
+                                    <h3>{event.title}</h3>
+                                    <h4>10 : 10 - 11 : 10</h4>
+                                    <p className="eventDescription">
+                                        {event.description}
+                                    </p>
+                                    <span
+                                        className="material-symbols-rounded iconEvent modify"
+                                        onClick={handleModifyClick}
+                                    >
+                                        edit_square
+                                    </span>
+                                    <span
+                                        className="material-symbols-rounded iconEvent delete"
+                                        onClick={handleDeleteClick}
+                                    >
+                                        delete
+                                    </span>
                                 </div>
                             ))}
                         </div>
