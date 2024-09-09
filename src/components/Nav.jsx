@@ -13,20 +13,29 @@ function Nav({ activeTab, setActiveTab, stuckNav }) {
                 <ul>
                     <li
                         className={`link ${activeTab === 'Calendrier' ? 'selected' : ''}`}
-                        onClick={() => handleNavClick('Calendrier')}
+                        onClick={() => {
+                            handleNavClick('Calendrier');
+                            window.scrollTo({ top: 0 });
+                        }}
                     >
                         Calendriers
                     </li>
                     <li
                         className={`link ${activeTab === 'Rendez-vous' ? 'selected' : ''}`}
-                        onClick={() => handleNavClick('Rendez-vous')}
+                        onClick={() => {
+                            handleNavClick('Rendez-vous');
+                            window.scrollTo({ top: 0 });
+                        }}
                     >
                         Evenements
                     </li>
                     <div className="navSection">
                         <li
                             className={`link linkSection ${activeTab === 'Paramètres' ? 'selected' : ''}`}
-                            onClick={() => handleNavClick('Paramètres')}
+                            onClick={() => {
+                                handleNavClick('Paramètres');
+                                window.scrollTo({ top: 0 });
+                            }}
                         >
                             <span className="material-symbols-rounded">
                                 settings
@@ -34,7 +43,10 @@ function Nav({ activeTab, setActiveTab, stuckNav }) {
                         </li>
                         <li
                             className={`link linkSection ${activeTab === 'Dashboard' ? 'selected' : ''}`}
-                            onClick={() => handleNavClick('Dashboard')}
+                            onClick={() => {
+                                handleNavClick('Dashboard');
+                                window.scrollTo({ top: 0 });
+                            }}
                         >
                             <span className="material-symbols-rounded">
                                 home

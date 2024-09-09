@@ -43,7 +43,10 @@ function Calendar({ onDateClick, events }) {
                 <div
                     key={i}
                     className="day"
-                    onClick={() => onDateClick(date)} // Appeler la fonction onDateClick avec la date
+                    onClick={() => {
+                        onDateClick(date);
+                        window.scrollTo({ top: 0 });
+                    }} // Appeler la fonction onDateClick avec la date
                 >
                     {i}
                     {eventExists && (

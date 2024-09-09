@@ -28,6 +28,14 @@ function SelectedDaySection({
         onShowModalClick('modalCreateEvent');
     };
 
+    const handleDeleteClick = () => {
+        onShowModalClick('modalDeleteEvent');
+    };
+
+    const handleModifyClick = () => {
+        onShowModalClick('modalModifyEvent');
+    };
+
     return (
         <div className="selectedDaySection">
             <div className="selectedDayNavBtn">
@@ -67,6 +75,18 @@ function SelectedDaySection({
                                     )}
                                 </p>
                                 <p>{event.description}</p>
+                                <span
+                                    className="material-symbols-rounded iconEvent modify"
+                                    onClick={handleModifyClick}
+                                >
+                                    edit_square
+                                </span>
+                                <span
+                                    className="material-symbols-rounded iconEvent delete"
+                                    onClick={handleDeleteClick}
+                                >
+                                    delete
+                                </span>
                             </div>
                         ))
                     ) : (

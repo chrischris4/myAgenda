@@ -93,7 +93,8 @@ function Modal({
             // Stocker le token JWT dans le localStorage
             localStorage.setItem('token', response.token);
 
-            setConnectedUser(true); // Mettre à jour l'état pour indiquer que l'utilisateur est connecté
+            setConnectedUser(true);
+            window.scrollTo({ top: 0 });
             onClose(); // Fermer la modal après connexion
         } else {
             // Gérer les erreurs de connexion

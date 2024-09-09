@@ -42,7 +42,7 @@ function Home() {
     };
 
     const stuckNavOn = () => {
-        if (window.scrollY > 168) {
+        if (window.scrollY > 170) {
             setStuckNav(true);
         } else {
             setStuckNav(false);
@@ -82,7 +82,8 @@ function Home() {
 
     const handleLogout = () => {
         logoutUser(); // Efface les données d'authentification
-        setConnectedUser(false); // Met à jour l'état de connexion
+        setConnectedUser(false);
+        window.scrollTo({ top: 0 });
     };
 
     // Vérifie si l'utilisateur est authentifié et récupère les événements
