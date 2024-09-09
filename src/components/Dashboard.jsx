@@ -5,7 +5,11 @@ import '../styles/Dashboard.css';
 function Dashboard({ onShowModalClick, stuckNav, onDateClick }) {
     const [currentMonthDays, setCurrentMonthDays] = useState([]);
     const [monthName, setMonthName] = useState('');
+    const [viewType, setViewType] = useState('today');
 
+    const handleViewChange = view => {
+        setViewType(view); // Changer la vue en fonction du clic
+    };
     // Fonction pour obtenir le nombre de jours dans un mois donné
     const getDaysInMonth = (month, year) => {
         return new Date(year, month + 1, 0).getDate();
@@ -88,8 +92,23 @@ function Dashboard({ onShowModalClick, stuckNav, onDateClick }) {
         <div className="dashboard">
             <div className={`dashboardTitles ${stuckNav ? 'stuckTitles' : ''}`}>
                 <h3 className="dashboardTitle">Ce mois</h3>
-                <h3 className="dashboardTitle">Aujourd'hui</h3>
-                <div className="dashboardTitle">
+                <h3
+                    className="dashboardTitle"
+                    onClick={() => handleViewChange('today')}
+                >
+                    <div
+                        className={`circle ${viewType === 'today' ? 'activeTitle' : ''}`}
+                    ></div>
+                    Aujourd'hui
+                    <div className="circle"></div>
+                </h3>
+                <div
+                    className="dashboardTitle"
+                    onClick={() => handleViewChange('next')}
+                >
+                    <div
+                        className={`circle ${viewType === 'next' ? 'activeTitle' : ''}`}
+                    ></div>
                     <h3>Prochains Rendez-vous</h3>
                     <div className="nextEventsBtn">
                         <span
@@ -99,16 +118,14 @@ function Dashboard({ onShowModalClick, stuckNav, onDateClick }) {
                             add
                         </span>
                     </div>
+                    <div className="circle"></div>
                 </div>
             </div>
             <div
                 className={`dashboardSections ${stuckNav ? 'dashboardSectionsScroll' : ''}`}
             >
                 <div
-                    className={`fakeMonth ${stuckNav ? 'fakeMonthOn' : ''}`}
-                ></div>
-                <div
-                    className={`actualMonth ${stuckNav ? 'stuckDashboard' : ''}`}
+                    className={`actualMonth ${stuckNav ? 'stuckActualMonth' : ''}`}
                 >
                     <div className="dashboardMonth">
                         <div className="monthContent">
@@ -128,47 +145,52 @@ function Dashboard({ onShowModalClick, stuckNav, onDateClick }) {
                         </div>
                     </div>
                 </div>
-                <div
-                    className={`todayEvents ${stuckNav ? 'stuckTodayEvents' : ''}`}
-                >
-                    <p className="noEvents">Pas d'événement aujourd'hui</p>
-                </div>
-                <div className="nextEvents">
-                    <div className="nextEventsContent">
-                        {events.length > 0 ? (
-                            events.map(event => (
-                                <div
-                                    key={event._id}
-                                    className="event nextEvent"
-                                >
-                                    <h3>{event.title}</h3>
-                                    <h4>
-                                        {new Date(
-                                            event.date
-                                        ).toLocaleDateString('fr-FR')}
-                                    </h4>
-                                    <p className="eventDescription">
-                                        {event.description}
-                                    </p>
-                                    <span
-                                        className="material-symbols-rounded iconEvent modify"
-                                        onClick={handleModifyClick}
-                                    >
-                                        edit_square
-                                    </span>
-                                    <span
-                                        className="material-symbols-rounded iconEvent delete"
-                                        onClick={handleDeleteClick}
-                                    >
-                                        delete
-                                    </span>
-                                </div>
-                            ))
-                        ) : (
-                            <p className="noEvents">Aucun événement trouvé</p>
-                        )}
+                {viewType === 'today' && (
+                    <div className="todayEvents">
+                        <p className="noEvents">Pas d'événement aujourd'hui</p>
                     </div>
-                </div>
+                )}
+
+                {viewType === 'next' && (
+                    <div className="nextEvents">
+                        <div className="nextEventsContent">
+                            {events.length > 0 ? (
+                                events.map(event => (
+                                    <div
+                                        key={event._id}
+                                        className="event nextEvent"
+                                    >
+                                        <h3>{event.title}</h3>
+                                        <h4>
+                                            {new Date(
+                                                event.date
+                                            ).toLocaleDateString('fr-FR')}
+                                        </h4>
+                                        <p className="eventDescription">
+                                            {event.description}
+                                        </p>
+                                        <span
+                                            className="material-symbols-rounded iconEvent modify"
+                                            onClick={handleModifyClick}
+                                        >
+                                            edit_square
+                                        </span>
+                                        <span
+                                            className="material-symbols-rounded iconEvent delete"
+                                            onClick={handleDeleteClick}
+                                        >
+                                            delete
+                                        </span>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="noEvents">
+                                    Aucun événement trouvé
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

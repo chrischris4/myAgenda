@@ -6,15 +6,17 @@
     }
 }
 
-.dashboardTitles,
 .dashboardSections {
-    background-color: white;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     width: 100%;
+    position: relative;
 }
 
 .dashboardTitles {
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
     z-index: 2;
 }
 
@@ -29,44 +31,65 @@
 }
 
 .dashboardTitle {
+    cursor: pointer;
     width: 32%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.actualMonth,
-.nextEvents,
-.todayEvents {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.circle {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+}
+
+.activeTitle {
+    background-color: #b8c2d289;
+}
+
+.actualMonth {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 32%;
+    display: flex;
+    justify-content: center;
     h2 {
         margin-top: 0;
     }
 }
-.stuckTodayEvents {
-    width: 28.8%;
-    left: 35.6%;
-    top: 145px;
+
+.stuckActualMonth {
     position: fixed;
-}
-
-.stuckDashboard {
-    width: 28.8%;
+    width: 28.77%;
+    left: 5%;
     top: 145px;
-    position: fixed;
 }
 
-.fakeMonth {
-    display: none;
-    width: 32%;
-    height: 300px;
+.dashboardMonth {
+    height: fit-content;
+    background-color: #11151d;
+    border-radius: 20px;
+    width: 325px;
 }
 
-.fakeMonthOn {
+.nextEvents,
+.todayEvents {
+    background-color: #b8c2d289;
+    border-radius: 20px;
+    padding: 20px;
+    padding-bottom: 0;
+    box-sizing: border-box;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 66%;
+    margin-bottom: 200px;
+    h2 {
+        margin-top: 0;
+    }
 }
 
 .noEvents {
@@ -75,29 +98,6 @@
     padding: 20px;
     border-radius: 20px;
     box-sizing: border-box;
-}
-
-.actualMonthOn {
-    width: 28%;
-    position: fixed;
-    top: 85px;
-}
-
-.fakeActualMonth {
-    width: 32%;
-    display: none;
-    height: 586.1px;
-}
-
-.fakeActualMonthOn {
-    display: flex;
-}
-
-.dashboardMonth {
-    height: fit-content;
-    background-color: #11151d;
-    border-radius: 20px;
-    width: 325px;
 }
 
 .nextEventsContent {
@@ -110,8 +110,8 @@
     margin-left: 20px;
     background-color: #11151d;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -120,7 +120,7 @@
 .nextEvent {
     margin: auto;
     margin-bottom: 20px;
-    width: 90%;
+    width: 100%;
     h3 {
         color: white;
     }
