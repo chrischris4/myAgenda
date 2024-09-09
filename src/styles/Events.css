@@ -148,3 +148,9 @@
     right: 20px;
     top: 20px;
 }
+
+.bell {
+    position: absolute;
+    right: 55px;
+    top: 20px;
+}

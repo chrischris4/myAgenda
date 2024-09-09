@@ -109,6 +109,9 @@ function Events({ onShowModalClick }) {
                                     >
                                         delete
                                     </span>
+                                    <span class="material-symbols-rounded iconEvent bell">
+                                        notification_add
+                                    </span>
                                 </div>
                             ))}
                         </div>

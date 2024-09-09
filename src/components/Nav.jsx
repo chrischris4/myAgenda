@@ -8,7 +8,57 @@ function Nav({ activeTab, setActiveTab, stuckNav }) {
     };
 
     return (
-        <div className={`nav ${stuckNav ? 'stuckNav' : ''}`}>
+        <div className="nav">
+            <div
+                className={`nav navScroll ${stuckNav ? 'stuckScrollNav' : ''}`}
+            >
+                <nav>
+                    <ul>
+                        <li
+                            className={`link ${activeTab === 'Calendrier' ? 'selected' : ''}`}
+                            onClick={() => {
+                                handleNavClick('Calendrier');
+                                window.scrollTo({ top: 0 });
+                            }}
+                        >
+                            Calendriers
+                        </li>
+                        <li
+                            className={`link ${activeTab === 'Rendez-vous' ? 'selected' : ''}`}
+                            onClick={() => {
+                                handleNavClick('Rendez-vous');
+                                window.scrollTo({ top: 0 });
+                            }}
+                        >
+                            Evenements
+                        </li>
+                        <div className="navSection">
+                            <li
+                                className={`link linkSection ${activeTab === 'Paramètres' ? 'selected' : ''}`}
+                                onClick={() => {
+                                    handleNavClick('Paramètres');
+                                    window.scrollTo({ top: 0 });
+                                }}
+                            >
+                                <span className="material-symbols-rounded">
+                                    settings
+                                </span>
+                            </li>
+                            <li
+                                className={`link linkSection ${activeTab === 'Dashboard' ? 'selected' : ''}`}
+                                onClick={() => {
+                                    handleNavClick('Dashboard');
+                                    window.scrollTo({ top: 0 });
+                                }}
+                            >
+                                <span className="material-symbols-rounded">
+                                    home
+                                </span>
+                            </li>
+                        </div>
+                    </ul>
+                </nav>
+            </div>
             <nav>
                 <ul>
                     <li
@@ -43,10 +93,7 @@ function Nav({ activeTab, setActiveTab, stuckNav }) {
                         </li>
                         <li
                             className={`link linkSection ${activeTab === 'Dashboard' ? 'selected' : ''}`}
-                            onClick={() => {
-                                handleNavClick('Dashboard');
-                                window.scrollTo({ top: 0 });
-                            }}
+                            onClick={() => handleNavClick('Dashboard')}
                         >
                             <span className="material-symbols-rounded">
                                 home

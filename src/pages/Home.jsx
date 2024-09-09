@@ -26,6 +26,7 @@ function Home() {
     const [events, setEvents] = useState([]); // Stocke les événements
     const [topLink, setTopLink] = useState(false);
     const [stuckNav, setStuckNav] = useState(false);
+    const [stuckDashNav, setStuckDashNav] = useState(false);
     const [userPseudo, setUserPseudo] = useState('');
     const [loginValidate, setLoginValidate] = useState('');
     const [eventValidate, setEventValidate] = useState('');
@@ -51,6 +52,14 @@ function Home() {
         }
     };
 
+    const stuckDashNavOn = () => {
+        if (window.scrollY > 250) {
+            setStuckDashNav(true);
+        } else {
+            setStuckDashNav(false);
+        }
+    };
+
     useEffect(() => {
         if (loginValidate || eventValidate) {
             const timer = setTimeout(() => {
@@ -66,9 +75,11 @@ function Home() {
     useEffect(() => {
         window.addEventListener('scroll', showTopLink);
         window.addEventListener('scroll', stuckNavOn);
+        window.addEventListener('scroll', stuckDashNavOn);
         return () => {
             window.removeEventListener('scroll', showTopLink);
             window.removeEventListener('scroll', stuckNavOn);
+            window.removeEventListener('scroll', stuckDashNavOn);
         };
     }, []);
 
@@ -145,6 +156,7 @@ function Home() {
                         }}
                         events={events}
                         stuckNav={stuckNav}
+                        stuckDashNav={stuckDashNav}
                         onDateClick={handleDateClick}
                     />
                 );
@@ -208,9 +220,6 @@ function Home() {
                         setActiveTab={setActiveTab}
                         stuckNav={stuckNav}
                     />
-                    <div
-                        className={`fakeNav ${stuckNav ? 'fakeNavOn' : ''}`}
-                    ></div>
                     <div className="homeSection">{renderActiveTab()}</div>
                 </div>
             )}

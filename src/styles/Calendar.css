@@ -71,6 +71,7 @@
     width: 30px;
     height: 30px;
     font-weight: 100;
+    cursor: auto;
 }
 
 .daysContainer {

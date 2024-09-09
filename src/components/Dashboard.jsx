@@ -2,14 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { getEvents } from '../common';
 import '../styles/Dashboard.css';
 
-function Dashboard({ onShowModalClick, stuckNav, onDateClick }) {
+function Dashboard({ onShowModalClick, stuckNav, stuckDashNav, onDateClick }) {
     const [currentMonthDays, setCurrentMonthDays] = useState([]);
     const [monthName, setMonthName] = useState('');
     const [viewType, setViewType] = useState('today');
 
     const handleViewChange = view => {
-        setViewType(view); // Changer la vue en fonction du clic
+        setViewType(view);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Changer la vue en fonction du clic
     };
+
+    const weekDays = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+
     // Fonction pour obtenir le nombre de jours dans un mois donné
     const getDaysInMonth = (month, year) => {
         return new Date(year, month + 1, 0).getDate();
@@ -22,10 +27,23 @@ function Dashboard({ onShowModalClick, stuckNav, onDateClick }) {
         const currentMonth = today.getMonth(); // Mois actuel (de 0 à 11)
         const daysInMonth = getDaysInMonth(currentMonth, currentYear);
 
-        // Créer un tableau avec les jours du mois (1 à joursDansLeMois)
-        const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+        // Déterminer le premier jour du mois (0 = Dimanche, 1 = Lundi, etc.)
+        const firstDay = new Date(currentYear, currentMonth, 1).getDay();
 
-        // Définir le mois actuel et les jours
+        // Créer un tableau pour les jours du mois (y compris les cases vides avant le premier jour)
+        let daysArray = [];
+
+        // Ajouter les cases vides pour aligner les jours correctement
+        for (let i = 0; i < (firstDay === 0 ? 6 : firstDay - 1); i++) {
+            daysArray.push(<div key={`empty-${i}`} className="emptyDay"></div>);
+        }
+
+        // Ajouter les jours du mois
+        for (let i = 1; i <= daysInMonth; i++) {
+            daysArray.push(i);
+        }
+
+        // Définir les jours du mois dans le state
         setCurrentMonthDays(daysArray);
 
         // Définir le nom du mois (en utilisant l'API `toLocaleString`)
@@ -90,7 +108,40 @@ function Dashboard({ onShowModalClick, stuckNav, onDateClick }) {
 
     return (
         <div className="dashboard">
-            <div className={`dashboardTitles ${stuckNav ? 'stuckTitles' : ''}`}>
+            <div
+                className={`dashboardTitles dashboardTitlesScroll ${stuckDashNav ? 'stuckTitlesScroll' : ''}`}
+            >
+                <h3 className="dashboardTitle">Ce mois</h3>
+                <h3
+                    className="dashboardTitle"
+                    onClick={() => handleViewChange('today')}
+                >
+                    <div
+                        className={`circle ${viewType === 'today' ? 'activeTitle' : ''}`}
+                    ></div>
+                    Aujourd'hui
+                    <div className="circle"></div>
+                </h3>
+                <div
+                    className="dashboardTitle"
+                    onClick={() => handleViewChange('next')}
+                >
+                    <div
+                        className={`circle ${viewType === 'next' ? 'activeTitle' : ''}`}
+                    ></div>
+                    <h3>Prochains Rendez-vous</h3>
+                    <div className="nextEventsBtn">
+                        <span
+                            className="material-symbols-rounded"
+                            onClick={handleCreateClick}
+                        >
+                            add
+                        </span>
+                    </div>
+                    <div className="circle"></div>
+                </div>
+            </div>
+            <div className="dashboardTitles">
                 <h3 className="dashboardTitle">Ce mois</h3>
                 <h3
                     className="dashboardTitle"
@@ -132,12 +183,25 @@ function Dashboard({ onShowModalClick, stuckNav, onDateClick }) {
                             <h2 className="monthTitle">
                                 {monthName} {new Date().getFullYear()}
                             </h2>
-                            <div className="daysContainer">
-                                {currentMonthDays.map(day => (
-                                    <div key={day} className="day">
+                            <div className="weekDays">
+                                {weekDays.map((day, i) => (
+                                    <div key={i} className="weekDay">
                                         {day}
-                                        {hasEventOnDay(day) && (
-                                            <div className="eventDot"></div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="daysContainer">
+                                {currentMonthDays.map((day, index) => (
+                                    <div key={index} className="day">
+                                        {typeof day === 'number' ? (
+                                            <>
+                                                {day}
+                                                {hasEventOnDay(day) && (
+                                                    <div className="eventDot"></div>
+                                                )}
+                                            </>
+                                        ) : (
+                                            day
                                         )}
                                     </div>
                                 ))}
@@ -181,6 +245,9 @@ function Dashboard({ onShowModalClick, stuckNav, onDateClick }) {
                                             onClick={handleDeleteClick}
                                         >
                                             delete
+                                        </span>
+                                        <span class="material-symbols-rounded iconEvent bell">
+                                            notification_add
                                         </span>
                                     </div>
                                 ))
