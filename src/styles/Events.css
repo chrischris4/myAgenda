@@ -12,6 +12,7 @@
     margin-bottom: 20px;
 
     h3 {
+        font-weight: 100;
         margin-left: 20px;
     }
 }
@@ -36,12 +37,12 @@
 
 .eventsByDay::-webkit-scrollbar-thumb {
     cursor: pointer;
-    background-color: #222d41; /* Couleur de la barre de défilement */
+    background-color: #68707d89;
     border-radius: 10px; /* Arrondi de la barre */
 }
 
 .eventsByDay::-webkit-scrollbar-thumb:hover {
-    background-color: #545c6e; /* Couleur au survol */
+    background-color: #293346; /* Couleur au survol */
 }
 
 .eventsByDay::-webkit-scrollbar-track {
@@ -66,6 +67,7 @@
     margin-bottom: 10px;
 
     h2 {
+        font-weight: 100;
         box-sizing: border-box;
         text-align: center;
         padding: 20px;
@@ -101,8 +103,12 @@
     }
 
     h4 {
+        padding: 5px;
+        border-radius: 20px;
+        background-color: #b8c1d1;
+        color: black;
         margin: 0;
-        margin-top: 10px;
+        margin-bottom: 10px;
     }
 }
 

@@ -91,8 +91,9 @@ function Events({ onShowModalClick }) {
                             <h2>{formatDate(date)}</h2>
                             {events.map(event => (
                                 <div key={event._id} className="event">
-                                    <h3>{event.title}</h3>
                                     <h4>10 : 10 - 11 : 10</h4>
+
+                                    <h3>{event.title}</h3>
                                     <p className="eventDescription">
                                         {event.description}
                                     </p>

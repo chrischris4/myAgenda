@@ -160,12 +160,13 @@ function Dashboard({ onShowModalClick, stuckNav, onDateClick }) {
                                         key={event._id}
                                         className="event nextEvent"
                                     >
-                                        <h3>{event.title}</h3>
                                         <h4>
                                             {new Date(
                                                 event.date
                                             ).toLocaleDateString('fr-FR')}
                                         </h4>
+                                        <h3>{event.title}</h3>
+
                                         <p className="eventDescription">
                                             {event.description}
                                         </p>

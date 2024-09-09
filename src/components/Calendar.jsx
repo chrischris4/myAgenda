@@ -16,6 +16,9 @@ function Calendar({ onDateClick, events }) {
         'December',
     ];
 
+    // Abréviations des jours de la semaine (commençant par Lundi)
+    const weekDays = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+
     // Fonction pour déterminer le nombre de jours dans un mois donné
     const getDaysInMonth = (month, year) => {
         return new Date(year, month + 1, 0).getDate(); // Le +1 est nécessaire car les mois sont indexés de 0 à 11
@@ -35,6 +38,16 @@ function Calendar({ onDateClick, events }) {
     const renderDays = monthIndex => {
         const days = getDaysInMonth(monthIndex, 2024);
         let daysArray = [];
+
+        // Trouver le premier jour du mois (0 = Dimanche, 1 = Lundi, ...)
+        const firstDay = new Date(2024, monthIndex, 1).getDay();
+
+        // Ajout des cases vides avant le premier jour
+        for (let i = 0; i < (firstDay === 0 ? 6 : firstDay - 1); i++) {
+            daysArray.push(<div key={`empty-${i}`} className="emptyDay"></div>);
+        }
+
+        // Ajouter les jours du mois
         for (let i = 1; i <= days; i++) {
             const date = new Date(2024, monthIndex, i);
             const eventExists = hasEventOnDay(i, monthIndex);
@@ -77,6 +90,13 @@ function Calendar({ onDateClick, events }) {
                         <div key={index} className="month">
                             <div className="monthContent">
                                 <h2 className="monthTitle">{month}</h2>
+                                <div className="weekDays">
+                                    {weekDays.map((day, i) => (
+                                        <div key={i} className="weekDay">
+                                            {day}
+                                        </div>
+                                    ))}
+                                </div>
                                 <div className="daysContainer">
                                     {renderDays(index)}
                                 </div>

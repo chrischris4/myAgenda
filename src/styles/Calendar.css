@@ -15,6 +15,7 @@
     border-radius: 20px;
     width: 100%;
     h2 {
+        font-weight: 100;
         font-size: 20px;
     }
 }
@@ -36,30 +37,52 @@
 .month {
     display: flex;
     flex-direction: column;
-    width: 24%;
+    width: fit-content;
     border-radius: 20px;
     margin-top: 20px;
     background-color: #11151d;
 
     h2 {
-        margin-top: 0;
+        margin: 0;
+        margin-bottom: 5px;
     }
 }
 
 .monthContent {
+    display: flex;
+    flex-direction: column;
     padding: 20px;
 }
 
+/* Jours de la semaine */
+.weekDays {
+    color: #b8c2d2;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* Grille de 7 colonnes */
+    gap: 7px;
+    text-align: center;
+    margin-bottom: 5px;
+    padding-top: 5px;
+}
+
+.weekDay,
+.emptyDay {
+    border: 2px solid #11151d;
+    width: 30px;
+    height: 30px;
+    font-weight: 100;
+}
+
 .daysContainer {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* Grille de 7 colonnes */
+    gap: 7px;
 }
 
 .day {
     position: relative;
     display: flex;
-    margin-right: 7px;
-    margin-bottom: 7px;
+    margin-bottom: 5px;
     justify-content: center;
     align-items: center;
     height: 30px;

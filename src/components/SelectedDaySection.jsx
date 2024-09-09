@@ -68,12 +68,12 @@ function SelectedDaySection({
                     {eventsForSelectedDate.length > 0 ? (
                         eventsForSelectedDate.map(event => (
                             <div key={event._id} className="event">
-                                <h3>{event.title}</h3>
-                                <p className="eventDate">
+                                <h4 className="eventDate">
                                     {new Date(event.date).toLocaleTimeString(
                                         'fr-FR'
                                     )}
-                                </p>
+                                </h4>
+                                <h3>{event.title}</h3>
                                 <p className="eventDescription">
                                     {event.description}
                                 </p>
