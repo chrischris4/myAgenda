@@ -146,7 +146,7 @@ function Dashboard({ onShowModalClick, stuckNav }) {
                             </div>
                         ))
                     ) : (
-                        <p>Aucun événement trouvé</p>
+                        <p className="noEvents">Aucun événement trouvé</p>
                     )}
                 </div>
             </div>

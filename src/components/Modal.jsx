@@ -4,7 +4,13 @@ import { createEvent, createUser, loginUser } from '../common';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-function Modal({ onClose, activeSection, onShowModalClick, setConnectedUser }) {
+function Modal({
+    onClose,
+    activeSection,
+    onShowModalClick,
+    setConnectedUser,
+    addEvent,
+}) {
     const [startDate, setStartDate] = useState(new Date());
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -47,9 +53,10 @@ function Modal({ onClose, activeSection, onShowModalClick, setConnectedUser }) {
 
     const handleSubmit = async e => {
         e.preventDefault();
+        const formattedDate = startDate.toISOString();
 
         const eventData = {
-            date: startDate,
+            date: formattedDate,
             title,
             description,
         };
@@ -57,6 +64,12 @@ function Modal({ onClose, activeSection, onShowModalClick, setConnectedUser }) {
         const response = await createEvent(eventData);
 
         if (!response.error) {
+            addEvent({
+                date: formattedDate,
+                title,
+                description,
+                _id: response.eventId,
+            });
             // Traiter le succès, fermer la modal, ou actualiser la liste des événements
             onClose();
         } else {

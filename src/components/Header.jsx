@@ -27,7 +27,7 @@ function Header({ connectedUser, userPseudo }) {
                     src="https://i.ibb.co/wh7Hy6g/think-817844.png"
                     alt=""
                 />
-                <h2>{userPseudo || 'UserName'}</h2>
+                <h2>{userPseudo}</h2>
             </div>
         </div>
     );

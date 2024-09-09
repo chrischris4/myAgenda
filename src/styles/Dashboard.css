@@ -16,6 +16,13 @@
     }
 }
 
+.noEvents {
+    background-color: #11151d;
+    padding: 20px;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
 .actualMonthOn {
     width: 45%;
     position: fixed;

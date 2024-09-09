@@ -28,6 +28,10 @@ function Home() {
     const [stuckNav, setStuckNav] = useState(false);
     const [userPseudo, setUserPseudo] = useState('');
 
+    const addEvent = event => {
+        setEvents(prevEvents => [...prevEvents, event]);
+    };
+
     // Fonction pour afficher ou masquer le scrollToTop
     const showTopLink = () => {
         if (window.scrollY > 0) {
@@ -205,6 +209,7 @@ function Home() {
                             setShowModal(true);
                             setActiveModalSection(section);
                         }}
+                        addEvent={addEvent}
                     />
                 </div>
             )}

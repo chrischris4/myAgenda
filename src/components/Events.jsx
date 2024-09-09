@@ -3,14 +3,17 @@ import { useEffect, useState } from 'react';
 import { getEvents } from '../common'; // Créez une fonction pour récupérer les événements
 
 function Events({ onShowModalClick }) {
-    const [events, setEvents] = useState([]);
+    const [eventsByDate, setEventsByDate] = useState([]);
 
     useEffect(() => {
         const fetchEvents = async () => {
             try {
                 const response = await getEvents();
                 if (!response.error) {
-                    setEvents(response.events);
+                    const groupedAndSortedEvents = groupAndSortEventsByDate(
+                        response.events
+                    );
+                    setEventsByDate(groupedAndSortedEvents);
                 } else {
                     console.error(response.message);
                 }
@@ -24,6 +27,35 @@ function Events({ onShowModalClick }) {
 
         fetchEvents();
     }, []);
+
+    const formatDate = dateString => {
+        const date = new Date(dateString);
+        return new Intl.DateTimeFormat('fr-FR', {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+        }).format(date);
+    };
+
+    // Fonction pour regrouper et trier les événements par date
+    const groupAndSortEventsByDate = events => {
+        const groupedEvents = events.reduce((acc, event) => {
+            const date = new Date(event.date).toLocaleDateString('fr-FR'); // Formater la date
+            if (!acc[date]) {
+                acc[date] = [];
+            }
+            acc[date].push(event);
+            return acc;
+        }, {});
+
+        // Convertir l'objet en tableau et trier les dates (décroissant)
+        const sortedEvents = Object.keys(groupedEvents)
+            .sort((a, b) => new Date(a) - new Date(b)) // Trier par date décroissante
+            .map(date => ({ date, events: groupedEvents[date] }));
+
+        return sortedEvents;
+    };
 
     const handleAddClick = () => {
         onShowModalClick('modalCreateEvent');
@@ -48,37 +80,38 @@ function Events({ onShowModalClick }) {
                 </span>
                 <h3>Ajouter un Rendez-vous</h3>
             </div>
-            <div className="eventsContent">
-                {events.length > 0 ? (
-                    events.map(event => (
-                        <div key={event._id} className="event">
-                            <div className="eventContent">
-                                <h2>
-                                    {new Date(event.date).toLocaleDateString(
-                                        'fr-FR'
-                                    )}
-                                </h2>
-                                <h3>{event.title}</h3>
-                                <p>{event.description}</p>
-                                <span
-                                    className="material-symbols-rounded iconEvent modify"
-                                    onClick={handleModifyClick}
-                                >
-                                    edit_square
-                                </span>
-                                <span
-                                    className="material-symbols-rounded iconEvent delete"
-                                    onClick={handleDeleteClick}
-                                >
-                                    delete
-                                </span>
-                            </div>
+            {eventsByDate.length > 0 ? (
+                <div className="eventsByDay">
+                    {eventsByDate.map(({ date, events }) => (
+                        <div key={date} className="eventDayColumn">
+                            <h2>{formatDate(date)}</h2>
+                            {events.map(event => (
+                                <div key={event._id} className="event">
+                                    <div className="eventContent">
+                                        <h3>{event.title}</h3>
+                                        <h4>10 : 10 - 11 : 10</h4>
+                                        <p>{event.description}</p>
+                                        <span
+                                            className="material-symbols-rounded iconEvent modify"
+                                            onClick={handleModifyClick}
+                                        >
+                                            edit_square
+                                        </span>
+                                        <span
+                                            className="material-symbols-rounded iconEvent delete"
+                                            onClick={handleDeleteClick}
+                                        >
+                                            delete
+                                        </span>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    ))
-                ) : (
-                    <p>Aucun événement trouvé</p>
-                )}
-            </div>
+                    ))}
+                </div>
+            ) : (
+                <p>Aucun événement trouvé</p>
+            )}
         </div>
     );
 }
