@@ -4,6 +4,8 @@ import {
     logoutUser,
     getAuthenticatedUser,
     getUserPseudo,
+    deleteEvent,
+    updateEvent,
 } from '../common';
 import Events from '../components/Events';
 import Calendar from '../components/Calendar';
@@ -28,12 +30,12 @@ function Home() {
     const [stuckNav, setStuckNav] = useState(false);
     const [stuckDashNav, setStuckDashNav] = useState(false);
     const [userPseudo, setUserPseudo] = useState('');
+    const [userImage, setUserImage] = useState(''); // New state for user image
     const [loginValidate, setLoginValidate] = useState('');
     const [eventValidate, setEventValidate] = useState('');
-
-    const addEvent = event => {
-        setEvents(prevEvents => [...prevEvents, event]);
-    };
+    const [eventUpdated, setEventUpdated] = useState('');
+    const [eventToDelete, setEventToDelete] = useState(null);
+    const [eventToUpdate, setEventToUpdate] = useState(null);
 
     // Fonction pour afficher ou masquer le scrollToTop
     const showTopLink = () => {
@@ -43,6 +45,23 @@ function Home() {
             setTopLink(false);
         }
     };
+
+    //ALERT///////////////////////////////////////////////////////
+
+    useEffect(() => {
+        if (loginValidate || eventValidate || eventUpdated) {
+            const timer = setTimeout(() => {
+                setLoginValidate(false);
+                setEventValidate(false);
+                setEventUpdated(false);
+            }, 2000);
+
+            // Cleanup pour éviter des effets de bord
+            return () => clearTimeout(timer);
+        }
+    }, [loginValidate, eventValidate, eventUpdated]); // Déclenchement à chaque changement de loginValidate
+
+    //DASHBOARDEFFECT/////////////////////////////////////////////////
 
     const stuckNavOn = () => {
         if (window.scrollY > 170) {
@@ -59,19 +78,6 @@ function Home() {
             setStuckDashNav(false);
         }
     };
-
-    useEffect(() => {
-        if (loginValidate || eventValidate) {
-            const timer = setTimeout(() => {
-                setLoginValidate(false);
-                setEventValidate(false);
-            }, 2000);
-
-            // Cleanup pour éviter des effets de bord
-            return () => clearTimeout(timer);
-        }
-    }, [loginValidate, eventValidate]); // Déclenchement à chaque changement de loginValidate
-
     useEffect(() => {
         window.addEventListener('scroll', showTopLink);
         window.addEventListener('scroll', stuckNavOn);
@@ -83,16 +89,17 @@ function Home() {
         };
     }, []);
 
-    // Gère la sélection de date dans le calendrier
+    //CALLENDAR////////////////////////////////////////////////
     const handleDateClick = date => {
         setSelectedDate(date);
         setActiveTab('Jour');
     };
 
+    //SELECTEDDAYNAV//////////////////////////////////////////////////////////
     const handlePrevDay = () => {
         setSelectedDate(prevDate => {
             const newDate = new Date(prevDate);
-            newDate.setDate(prevDate.getDate() - 1); // Reculer d'un jour
+            newDate.setDate(prevDate.getDate() - 1);
             return newDate;
         });
     };
@@ -100,15 +107,62 @@ function Home() {
     const handleNextDay = () => {
         setSelectedDate(prevDate => {
             const newDate = new Date(prevDate);
-            newDate.setDate(prevDate.getDate() + 1); // Avancer d'un jour
+            newDate.setDate(prevDate.getDate() + 1);
             return newDate;
         });
     };
 
     const handleLogout = () => {
-        logoutUser(); // Efface les données d'authentification
+        logoutUser();
         setConnectedUser(false);
         window.scrollTo({ top: 0 });
+    };
+
+    /////////////////////////////////////////EVENT///////////////////////////////////////
+    //////ADD/////////
+
+    const addEvent = event => {
+        setEvents(prevEvents => [...prevEvents, event]);
+    };
+
+    //UPDATE////////////////////
+    const handleUpdateEvent = async (eventId, updatedEventData) => {
+        const response = await updateEvent(eventId, updatedEventData);
+        if (response.success) {
+            setEvents(prevEvents =>
+                prevEvents.map(event =>
+                    event._id === eventId
+                        ? { ...event, ...updatedEventData }
+                        : event
+                )
+            );
+            console.log('Événement mis à jour avec succès');
+        } else {
+            console.error(
+                "Erreur lors de la mise à jour de l'événement:",
+                response.message
+            );
+        }
+    };
+
+    /////DELETE EVENT///////////////////////
+    const handleDeleteEvent = async event => {
+        console.log('Événement à supprimer:', event);
+        const eventId = event._id;
+        if (!eventId) {
+            console.error("L'ID de l'événement est manquant");
+            return;
+        }
+        const response = await deleteEvent(eventId); // Call the API to delete the event
+        if (response.success) {
+            setEvents(prevEvents => prevEvents.filter(e => e._id !== eventId)); // Remove deleted event from state
+            console.log('Événement supprimé avec succès');
+        } else {
+            console.error(
+                "Erreur lors de la suppression de l'événement:",
+                response.message
+            );
+        }
     };
 
     // Vérifie si l'utilisateur est authentifié et récupère les événements
@@ -134,6 +188,7 @@ function Home() {
                 const pseudoResponse = await getUserPseudo();
                 if (!pseudoResponse.error) {
                     setUserPseudo(pseudoResponse.pseudo);
+                    setUserImage(pseudoResponse.picture);
                 }
             } else {
                 setConnectedUser(false); // Si l'utilisateur n'est pas connecté
@@ -158,6 +213,8 @@ function Home() {
                         stuckNav={stuckNav}
                         stuckDashNav={stuckDashNav}
                         onDateClick={handleDateClick}
+                        setEventToDelete={setEventToDelete}
+                        setEventToUpdate={setEventToUpdate}
                     />
                 );
             case 'Calendrier':
@@ -172,6 +229,7 @@ function Home() {
                             setActiveModalSection(section);
                         }}
                         events={events}
+                        setEventToDelete={setEventToDelete}
                     />
                 );
             case 'Paramètres':
@@ -185,8 +243,9 @@ function Home() {
                         }}
                         date={selectedDate}
                         events={events}
-                        onPrevDay={handlePrevDay} // Passer la fonction pour le jour précédent
-                        onNextDay={handleNextDay} // Passer la fonction pour le jour suivant
+                        onPrevDay={handlePrevDay}
+                        onNextDay={handleNextDay}
+                        setEventToDelete={setEventToDelete}
                     />
                 );
             default:
@@ -194,10 +253,13 @@ function Home() {
         }
     };
 
+    console.log(userImage);
+
     return (
         <div className="home">
             <Header
                 userPseudo={userPseudo}
+                userImage={userImage}
                 onShowModalClick={section => {
                     setShowModal(true);
                     setActiveModalSection(section);
@@ -237,6 +299,11 @@ function Home() {
                         addEvent={addEvent}
                         setLoginValidate={setLoginValidate}
                         setEventValidate={setEventValidate}
+                        setEventUpdated={setEventUpdated}
+                        handleDeleteEvent={handleDeleteEvent}
+                        eventToDelete={eventToDelete}
+                        handleUpdateEvent={handleUpdateEvent}
+                        eventToUpdate={eventToUpdate}
                     />
                 </div>
             )}
@@ -257,7 +324,12 @@ function Home() {
             <div
                 className={`alertValidate ${eventValidate ? 'showAlertValidate' : ''}`}
             >
-                Evenement crée avec succée !
+                Evenement crée avec succès !
+            </div>
+            <div
+                className={`alertValidate ${eventUpdated ? 'showAlertValidate' : ''}`}
+            >
+                Evenement modifié avec succès !
             </div>
         </div>
     );

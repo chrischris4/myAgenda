@@ -1,5 +1,5 @@
 import '../styles/Modal.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createEvent, createUser, loginUser } from '../common';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -12,6 +12,11 @@ function Modal({
     addEvent,
     setLoginValidate,
     setEventValidate,
+    handleDeleteEvent,
+    eventToDelete,
+    handleUpdateEvent,
+    eventToUpdate,
+    setEventUpdated,
 }) {
     const [startDate, setStartDate] = useState(new Date());
     const [title, setTitle] = useState('');
@@ -21,37 +26,75 @@ function Modal({
     const [picture, setPicture] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmitUser = async e => {
+    /////////////////////////USER///////////////////////////////////////
+
+    //SIGNIN//////////////////////////////////////////
+    const handleSubmitSignIn = async e => {
         e.preventDefault();
 
         const userData = {
-            pseudo,
-            email,
-            picture,
-            password,
+            email: document.getElementById('emailSignIn').value, // Récupérer l'email
+            password: document.getElementById('passwordSignIn').value, // Récupérer le mot de passe
         };
 
-        const response = await createUser(userData);
+        const response = await loginUser(userData);
 
         if (!response.error) {
-            // Traiter le succès, fermer la modal, ou actualiser la liste des événements
-            onClose();
+            console.log('Connexion réussie:', response);
+
+            // Stocker le token JWT dans le localStorage
+            localStorage.setItem('token', response.token);
+
+            setLoginValidate(true);
+            setConnectedUser(true);
+            window.scrollTo({ top: 0 });
+            onClose(); // Fermer la modal après connexion
         } else {
-            // Gérer l'erreur
+            // Gérer les erreurs de connexion
+            console.error(response.error);
+            alert('Erreur de connexion: ' + response.error);
+        }
+    };
+
+    //CREATE///////////////////////////////////////
+    // Pour gérer la sélection d'image
+    const handlePictureChange = e => {
+        const file = e.target.files[0]; // Récupère le premier fichier sélectionné
+        setPicture(file); // Stocke l'objet `File`
+    };
+    const handleSubmitUser = async e => {
+        e.preventDefault();
+
+        const formData = new FormData(); // Créer une nouvelle instance de FormData
+        formData.append('pseudo', pseudo);
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('picture', picture); // Ajouter l'image sélectionnée
+
+        const response = await createUser(formData); // Envoyer le formData
+
+        if (!response.error) {
+            onClose(); // Fermer la modal si le succès
+        } else {
             console.error(response.message);
         }
     };
 
+    //PROFIL/////////////////////////////////////////////
+
     const handleModalCreateProfilClick = e => {
         e.preventDefault(); // Empêcher le rafraîchissement de la page
 
-        // Si email et password sont valides, on passe à l'étape suivante
         if (email && password) {
             onShowModalClick('modalCreateProfil');
         } else {
             console.error('Email et mot de passe sont requis');
         }
     };
+
+    //////////////////////////////////////EVENT//////////////////////////////////////
+
+    //CREATE//////////////////////////////////////////////////////
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -80,30 +123,36 @@ function Modal({
         }
     };
 
-    const handleSubmitSignIn = async e => {
+    //UPDATE/////////////////////////////////////////
+
+    const handleSubmitUpdateEvent = async e => {
         e.preventDefault();
-
-        const userData = {
-            email: document.getElementById('emailSignIn').value, // Récupérer l'email
-            password: document.getElementById('passwordSignIn').value, // Récupérer le mot de passe
+        const updatedEventData = {
+            date: startDate.toISOString(),
+            title,
+            description,
         };
+        await handleUpdateEvent(eventToUpdate._id, updatedEventData);
+        setEventUpdated(true);
+        onClose();
+    };
 
-        const response = await loginUser(userData);
+    useEffect(() => {
+        if (eventToUpdate) {
+            setStartDate(new Date(eventToUpdate.date)); // Pré-remplir la date
+            setTitle(eventToUpdate.title); // Pré-remplir le titre
+            setDescription(eventToUpdate.description); // Pré-remplir la description
+        }
+    }, [eventToUpdate]);
 
-        if (!response.error) {
-            console.log('Connexion réussie:', response);
+    //DELETE///////////////////////////////////////////////
 
-            // Stocker le token JWT dans le localStorage
-            localStorage.setItem('token', response.token);
-
-            setLoginValidate(true);
-            setConnectedUser(true);
-            window.scrollTo({ top: 0 });
-            onClose(); // Fermer la modal après connexion
+    const confirmDelete = async () => {
+        if (eventToDelete) {
+            await handleDeleteEvent(eventToDelete); // Use the prop function instead
+            onClose(); // Optionally close the modal
         } else {
-            // Gérer les erreurs de connexion
-            console.error(response.error);
-            alert('Erreur de connexion: ' + response.error);
+            console.error('No event to delete'); // Handle case when no event is set
         }
     };
 
@@ -147,7 +196,7 @@ function Modal({
                 <div className="modalCreateProfil modal">
                     <h2>Crée un profil</h2>
                     <form onSubmit={handleSubmitUser}>
-                        <label htmlFor="">Pseudo</label>
+                        <label htmlFor="pseudo">Pseudo</label>
                         <input
                             type="text"
                             name="pseudo"
@@ -155,13 +204,44 @@ function Modal({
                             value={pseudo}
                             onChange={e => setPseudo(e.target.value)}
                         />
-                        <label htmlFor="">Image</label>
+                        <label htmlFor="">Choisissez une image</label>
+                        <div className="freePictures">
+                            <div className="freePicture">
+                                <img
+                                    src="https://i.ibb.co/S75R4wb/dog-3093482.png"
+                                    alt=""
+                                />
+                            </div>
+                            <div className="freePicture">
+                                {' '}
+                                <img
+                                    src="https://i.ibb.co/S75R4wb/dog-3093482.png"
+                                    alt=""
+                                />
+                            </div>
+                            <div className="freePicture">
+                                {' '}
+                                <img
+                                    src="https://i.ibb.co/S75R4wb/dog-3093482.png"
+                                    alt=""
+                                />
+                            </div>
+                            <div className="freePicture">
+                                {' '}
+                                <img
+                                    src="https://i.ibb.co/S75R4wb/dog-3093482.png"
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                        <label htmlFor="">Ou importez votre fichier</label>
                         <input
-                            type=""
+                            className="inputPicture"
+                            type="file"
                             name="picture"
                             id="picture"
-                            value={picture}
-                            onChange={e => setPicture(e.target.value)}
+                            onChange={handlePictureChange} // Gérer le changement de fichier
+                            accept="image/*"
                         />
                         <button type="submit">Création du compte</button>
                     </form>
@@ -189,18 +269,30 @@ function Modal({
             {activeSection === 'modalModifyEvent' && (
                 <div className="modalModifyEvent modal">
                     <h2>Modification d'un rendez-vous</h2>
-                    <form action="">
-                        <label htmlFor="">Date</label>
-                        <input type="text" name="" id="" />
+                    <form onSubmit={handleSubmitUpdateEvent}>
+                        <label htmlFor="date">Date</label>
+                        <DatePicker
+                            selected={startDate}
+                            onChange={date => setStartDate(date)}
+                            dateFormat="dd/MM/yyyy"
+                        />
                         <label htmlFor="">Titre</label>
-                        <input type="text" name="" id="" />
-                        <label htmlFor="">Description</label>
-                        <textarea
+                        <input
+                            type="text"
                             name=""
                             id=""
+                            value={title}
+                            onChange={e => setTitle(e.target.value)}
+                        />
+                        <label htmlFor="desc">Description</label>
+                        <textarea
+                            name=""
+                            id="description"
+                            value={description}
+                            onChange={e => setDescription(e.target.value)}
                             placeholder="Tapez votre texte ici..."
                         ></textarea>
-                        <button>Valider</button>
+                        <button type="submit">Valider</button>
                     </form>
                 </div>
             )}
@@ -240,7 +332,7 @@ function Modal({
                 <div className="modalDeleteEvent modal">
                     <h2>Supprimer un Rendez-vous</h2>
                     <p>Etes-vous sûr de vouloir supprimer ce rendez-vous ?</p>
-                    <button>Supprimer</button>
+                    <button onClick={confirmDelete}>Supprimer</button>
                 </div>
             )}
         </div>

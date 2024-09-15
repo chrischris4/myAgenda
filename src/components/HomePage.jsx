@@ -21,7 +21,7 @@ function HomePage({ onShowModalClick }) {
             <div className="homePageAbout">
                 <h2>Une organisation facile et rapide</h2>
                 <h3>
-                    Personnalisé vos rendez-vous et l'interface comme vous en
+                    Personnalisez vos rendez-vous et l'interface comme vous en
                     avez envie !
                 </h3>
                 <div className="homePageBtns">

@@ -2,7 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { getEvents } from '../common';
 import '../styles/Dashboard.css';
 
-function Dashboard({ onShowModalClick, stuckNav, stuckDashNav, onDateClick }) {
+function Dashboard({
+    onShowModalClick,
+    stuckNav,
+    stuckDashNav,
+    setEventToDelete,
+    setEventToUpdate,
+}) {
     const [currentMonthDays, setCurrentMonthDays] = useState([]);
     const [monthName, setMonthName] = useState('');
     const [viewType, setViewType] = useState('today');
@@ -78,11 +84,13 @@ function Dashboard({ onShowModalClick, stuckNav, stuckDashNav, onDateClick }) {
         fetchEvents();
     }, []);
 
-    const handleDeleteClick = () => {
+    const handleDeleteClick = event => {
+        setEventToDelete(event);
         onShowModalClick('modalDeleteEvent');
     };
 
-    const handleModifyClick = () => {
+    const handleModifyClick = event => {
+        setEventToUpdate(event);
         onShowModalClick('modalModifyEvent');
     };
 
@@ -236,17 +244,21 @@ function Dashboard({ onShowModalClick, stuckNav, stuckDashNav, onDateClick }) {
                                         </p>
                                         <span
                                             className="material-symbols-rounded iconEvent modify"
-                                            onClick={handleModifyClick}
+                                            onClick={() =>
+                                                handleModifyClick(event)
+                                            }
                                         >
                                             edit_square
                                         </span>
                                         <span
                                             className="material-symbols-rounded iconEvent delete"
-                                            onClick={handleDeleteClick}
+                                            onClick={() =>
+                                                handleDeleteClick(event)
+                                            }
                                         >
                                             delete
                                         </span>
-                                        <span class="material-symbols-rounded iconEvent bell">
+                                        <span className="material-symbols-rounded iconEvent bell">
                                             notification_add
                                         </span>
                                     </div>

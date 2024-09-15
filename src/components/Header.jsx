@@ -1,7 +1,7 @@
 import '../styles/Header.css';
 import React from 'react';
 
-function Header({ connectedUser, userPseudo }) {
+function Header({ connectedUser, userPseudo, userImage }) {
     const today = new Date();
     const options = {
         weekday: 'long',
@@ -10,6 +10,7 @@ function Header({ connectedUser, userPseudo }) {
         day: 'numeric',
     };
     const formattedDate = today.toLocaleDateString('fr-FR', options);
+
     return (
         <div className="header">
             <div className={`headerTitle ${!connectedUser ? 'hideUser' : ''}`}>
@@ -22,11 +23,7 @@ function Header({ connectedUser, userPseudo }) {
                 </div>
             </div>
             <div className={`headerUser ${connectedUser ? 'showUser' : ''}`}>
-                <img
-                    className="userImg"
-                    src="https://i.ibb.co/wh7Hy6g/think-817844.png"
-                    alt=""
-                />
+                <img className="userImg" src={userImage} alt="" />
                 <h2>{userPseudo}</h2>
             </div>
         </div>

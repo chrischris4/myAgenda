@@ -54,7 +54,10 @@ export async function getUserPseudo() {
 
         // Vérifiez si la réponse est correcte (status 200)
         if (response.status === 200) {
-            return { pseudo: response.data.pseudo }; // Retourner le pseudo
+            return {
+                pseudo: response.data.pseudo,
+                picture: response.data.image,
+            }; // Retourner le pseudo et l'image
         } else {
             return {
                 error: true,
@@ -88,6 +91,34 @@ export async function getAuthenticatedUser() {
     }
 }
 
+export const updateUser = async data => {
+    try {
+        const token = getFromLocalStorage('token');
+        const userId = getFromLocalStorage('userId');
+        const response = await axios.put(`${API_ROUTES.USER}/${userId}`, data, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (response.status === 200) {
+            return {
+                success: true,
+                message: 'User modifié avec succès',
+                event: response.data.event,
+            };
+        } else {
+            return {
+                error: true,
+                message: 'Erreur lors de la modification du user',
+            };
+        }
+    } catch (error) {
+        console.error('Erreur lors de la modification du user:', error.message);
+        return { error: true, message: error.message };
+    }
+};
+
 export function logoutUser() {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
@@ -102,7 +133,6 @@ export async function createEvent(data) {
             API_ROUTES.EVENT,
             { ...data, userId },
             {
-                // Ajoutez userId ici
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -114,6 +144,7 @@ export async function createEvent(data) {
         return { error: true, message: err.message };
     }
 }
+
 export const getEvents = async () => {
     try {
         const token = getFromLocalStorage('token');
@@ -141,6 +172,73 @@ export const getEvents = async () => {
     } catch (error) {
         console.error(
             'Erreur lors de la récupération des événements:',
+            error.message
+        );
+        return {
+            error: true,
+            message: error.message,
+        };
+    }
+};
+export const updateEvent = async (eventId, eventData) => {
+    try {
+        const token = getFromLocalStorage('token');
+        const response = await axios.put(
+            `${API_ROUTES.EVENT}/${eventId}`,
+            eventData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        if (response.status === 200) {
+            return {
+                success: true,
+                message: 'Événement modifié avec succès',
+                event: response.data.event,
+            };
+        } else {
+            return {
+                error: true,
+                message: "Erreur lors de la modification de l'événement",
+            };
+        }
+    } catch (error) {
+        console.error(
+            "Erreur lors de la modification de l'événement:",
+            error.message
+        );
+        return { error: true, message: error.message };
+    }
+};
+
+export const deleteEvent = async eventId => {
+    try {
+        const token = getFromLocalStorage('token');
+
+        const response = await axios.delete(
+            `${API_ROUTES.EVENT}/${eventId}`, // Remplace EVENT_DELETE par la route API pour supprimer un événement
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`, // Token pour l'autorisation
+                },
+            }
+        );
+
+        // Vérifier si l'événement a bien été supprimé
+        if (response.status === 200) {
+            return { success: true, message: 'Événement supprimé avec succès' };
+        } else {
+            return {
+                error: true,
+                message: "Erreur lors de la suppression de l'événement",
+            };
+        }
+    } catch (error) {
+        console.error(
+            "Erreur lors de la suppression de l'événement:",
             error.message
         );
         return {

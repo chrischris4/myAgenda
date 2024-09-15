@@ -2,7 +2,7 @@ import '../styles/Events.css';
 import { useEffect, useState } from 'react';
 import { getEvents } from '../common'; // Créez une fonction pour récupérer les événements
 
-function Events({ onShowModalClick }) {
+function Events({ onShowModalClick, setEventToDelete }) {
     const [eventsByDate, setEventsByDate] = useState([]);
 
     useEffect(() => {
@@ -65,7 +65,9 @@ function Events({ onShowModalClick }) {
         onShowModalClick('modalCreateEvent');
     };
 
-    const handleDeleteClick = () => {
+    const handleDeleteClick = event => {
+        console.log('Événement à supprimer:', event);
+        setEventToDelete(event);
         onShowModalClick('modalDeleteEvent');
     };
 
@@ -105,11 +107,11 @@ function Events({ onShowModalClick }) {
                                     </span>
                                     <span
                                         className="material-symbols-rounded iconEvent delete"
-                                        onClick={handleDeleteClick}
+                                        onClick={() => handleDeleteClick(event)}
                                     >
                                         delete
                                     </span>
-                                    <span class="material-symbols-rounded iconEvent bell">
+                                    <span className="material-symbols-rounded iconEvent bell">
                                         notification_add
                                     </span>
                                 </div>

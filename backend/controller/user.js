@@ -1,33 +1,62 @@
+require('dotenv').config();
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 const bcrypt = require('bcrypt');
+const multer = require('multer');
+const path = require('path');
 
+// Configurer Multer pour stocker les fichiers dans un répertoire spécifique
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); // Dossier où les images seront stockées
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // Nom de fichier unique
+    },
+});
+
+// Filtrer les fichiers pour n'accepter que les images
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true);
+    } else {
+        cb(new Error('Unsupported file format'), false);
+    }
+};
+
+// Initialiser l'upload avec la configuration
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 1024 * 1024 * 5 }, // Limite de taille à 5MB
+    fileFilter: fileFilter,
+});
 exports.createUser = async (req, res) => {
     try {
-        // Hash du mot de passe en utilisant await
         const hash = await bcrypt.hash(req.body.password, 10);
 
-        // Création du nouvel utilisateur avec le mot de passe hashé
+        // Si une image est uploadée, créez l'URL pour l'image
+        let imageUrl = null;
+        if (req.file) {
+            imageUrl = `${req.file.filename}`;
+        }
+
+        // Créer un nouvel utilisateur avec l'image et les autres infos
         const newUser = new User({
             pseudo: req.body.pseudo,
             email: req.body.email,
-            password: hash, // Utilisation du mot de passe hashé
-            picture: req.body.picture,
+            password: hash,
+            picture: imageUrl, // Enregistre l'URL de l'image
         });
 
-        // Sauvegarde de l'utilisateur dans la base de données
         await newUser.save();
 
-        // Réponse en cas de succès
         res.status(201).json({
-            message: 'User créé avec succès',
-            user: newUser, // Correction de 'event' en 'user'
+            message: 'Utilisateur créé avec succès',
+            user: newUser,
         });
     } catch (error) {
-        // Gestion des erreurs
         console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: 'Erreur interne du serveur' });
     }
 };
 
@@ -68,17 +97,46 @@ exports.getUserPseudo = async (req, res) => {
         const userId = req.auth.userId; // Récupérer l'ID de l'utilisateur du middleware
         const user = await User.findById(userId); // Trouver l'utilisateur dans la base de données
 
-        console.log(user);
         if (!user) {
             return res.status(404).json({ message: 'Utilisateur non trouvé' });
         }
 
-        res.json({ pseudo: user.pseudo }); // Renvoie le pseudo de l'utilisateur
+        res.json({
+            pseudo: user.pseudo,
+            image: user.picture, // Renvoie l'URL de l'image de l'utilisateur
+        });
     } catch (error) {
         res.status(500).json({
             message: "Erreur lors de la récupération de l'utilisateur",
             error,
         });
+    }
+};
+
+exports.updateUser = async (req, res) => {
+    const userId = req.auth.userId; // Récupérer l'ID de l'utilisateur du middleware
+    const user = await User.findById(userId); // Trouver l'utilisateur dans la base de données
+
+    try {
+        // Mettre à jour le user avec les nouvelles données
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { pseudo: req.body.pseudo }
+
+            // Renvoie le user mis à jour
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User non trouvé' });
+        }
+
+        res.status(200).json({
+            message: 'User mis à jour avec succès',
+            event: updatedUser,
+        });
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour du User:', error);
+        res.status(500).json({ message: 'Erreur serveur' });
     }
 };
 

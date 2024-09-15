@@ -6,8 +6,9 @@ function SelectedDaySection({
     onPrevDay,
     onNextDay,
     onShowModalClick,
+    setEventToDelete,
 }) {
-    // Accepter la date en prop
+    //////AFFICHER LES EVENTS SUIVANT LE JOUR/////////////////////////////////////////
     const formattedDate = date.toLocaleDateString('fr-FR', {
         weekday: 'long',
         year: 'numeric',
@@ -24,11 +25,13 @@ function SelectedDaySection({
         );
     });
 
+    ///////////////////MODAL//////////////////////////////////
     const handleAddClick = () => {
         onShowModalClick('modalCreateEvent');
     };
 
-    const handleDeleteClick = () => {
+    const handleDeleteClick = event => {
+        setEventToDelete(event);
         onShowModalClick('modalDeleteEvent');
     };
 
@@ -85,11 +88,11 @@ function SelectedDaySection({
                                 </span>
                                 <span
                                     className="material-symbols-rounded iconEvent delete"
-                                    onClick={handleDeleteClick}
+                                    onClick={() => handleDeleteClick(event)}
                                 >
                                     delete
                                 </span>
-                                <span class="material-symbols-rounded iconEvent bell">
+                                <span className="material-symbols-rounded iconEvent bell">
                                     notification_add
                                 </span>
                             </div>
