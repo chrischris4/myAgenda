@@ -319,7 +319,7 @@ function Home() {
             <div
                 className={`alertValidate ${loginValidate ? 'showAlertValidate' : ''}`}
             >
-                Bienvenue !
+                Bienvenue {userPseudo}!
             </div>
             <div
                 className={`alertValidate ${eventValidate ? 'showAlertValidate' : ''}`}

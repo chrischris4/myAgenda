@@ -219,7 +219,7 @@ function Dashboard({
                 </div>
                 {viewType === 'today' && (
                     <div className="todayEvents">
-                        <p className="noEvents">Pas d'événement aujourd'hui</p>
+                        <p className="noEvents">Aucun événement aujourd'hui</p>
                     </div>
                 )}
 

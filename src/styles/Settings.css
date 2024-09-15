@@ -6,70 +6,10 @@
     background-color: #11151d;
 
     button {
+        width: fit-content;
         color: #11151d;
         background-color: white;
         align-self: flex-end;
         margin-top: 20px;
     }
-
-    h2 {
-        margin-top: 0;
-    }
-}
-
-.settingsItem {
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    border-radius: 20px;
-    border: 4px solid #11151d;
-    background-color: white;
-    color: #11151d;
-    margin-right: 20px;
-
-    h3 {
-        margin: 0;
-    }
-}
-
-.settingsItem:hover {
-    border: 4px solid white;
-}
-
-.themes {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.theme {
-    width: 220px;
-    margin-bottom: 20px;
-}
-
-.themeColors {
-    margin-top: 20px;
-    display: flex;
-}
-
-.themeColor {
-    margin-right: 10px;
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    border: 2px solid #11151d;
-}
-
-.languages {
-    display: flex;
-    margin-bottom: 20px;
-}
-
-/* ////////////COLORS//////////////////////////////////////////////// */
-
-.white {
-    background-color: white;
-}
-.black {
-    background-color: black;
 }
