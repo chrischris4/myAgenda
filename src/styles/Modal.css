@@ -65,6 +65,14 @@
     flex-direction: column;
 }
 
+.react-datepicker-wrapper {
+    width: fit-content;
+}
+
+.dateTime {
+    display: flex;
+}
+
 .modalCreateProfil {
     display: flex;
     flex-direction: column;

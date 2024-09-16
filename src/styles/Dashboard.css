@@ -1,9 +1,6 @@
 .dashboard {
     display: flex;
     flex-direction: column;
-    h3 {
-        color: black;
-    }
 }
 
 .dashboardSections {
@@ -17,6 +14,9 @@
     background-color: white;
     display: flex;
     justify-content: space-between;
+    h3 {
+        color: black;
+    }
 }
 
 .dashboardTitlesScroll {

@@ -13,7 +13,8 @@ function Event(events, onShowModalClick, setEventToDelete, setEventToUpdate) {
     return (
         <div className="event">
             <h4>{eventDate}</h4>
-
+            <h4>{eventStartTime}</h4>
+            <h4>{eventEndTime}</h4>
             <h3>{eventTitle}</h3>
             <p className="eventDescription">{eventDescription}</p>
             <span

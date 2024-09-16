@@ -2,7 +2,7 @@ import '../styles/Events.css';
 import { useEffect, useState } from 'react';
 import { getEvents } from '../common'; // Créez une fonction pour récupérer les événements
 
-function Events({ onShowModalClick, setEventToDelete }) {
+function Events({ onShowModalClick, setEventToDelete, setEventToUpdate }) {
     const [eventsByDate, setEventsByDate] = useState([]);
 
     useEffect(() => {
@@ -71,7 +71,8 @@ function Events({ onShowModalClick, setEventToDelete }) {
         onShowModalClick('modalDeleteEvent');
     };
 
-    const handleModifyClick = () => {
+    const handleModifyClick = event => {
+        setEventToUpdate(event); // Assurez-vous que 'event' n'est pas null
         onShowModalClick('modalModifyEvent');
     };
 
@@ -93,8 +94,13 @@ function Events({ onShowModalClick, setEventToDelete }) {
                             <h2>{formatDate(date)}</h2>
                             {events.map(event => (
                                 <div key={event._id} className="event">
-                                    <h4>10 : 10 - 11 : 10</h4>
-
+                                    <div className="eventHours">
+                                        <h4 className="eventHour">
+                                            {event.startTime}
+                                        </h4>
+                                        <p>-</p>
+                                        <h4>{event.endTime}</h4>
+                                    </div>
                                     <h3>{event.title}</h3>
                                     <p className="eventDescription">
                                         {event.description}

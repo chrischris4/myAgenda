@@ -230,6 +230,7 @@ function Home() {
                         }}
                         events={events}
                         setEventToDelete={setEventToDelete}
+                        setEventToUpdate={setEventToUpdate}
                     />
                 );
             case 'Paramètres':
@@ -296,6 +297,7 @@ function Home() {
                             setShowModal(true);
                             setActiveModalSection(section);
                         }}
+                        events={events}
                         addEvent={addEvent}
                         setLoginValidate={setLoginValidate}
                         setEventValidate={setEventValidate}

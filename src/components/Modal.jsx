@@ -2,6 +2,8 @@ import '../styles/Modal.css';
 import { useState, useEffect } from 'react';
 import { createEvent, createUser, loginUser } from '../common';
 import DatePicker from 'react-datepicker';
+import { setHours, setMinutes } from 'date-fns'; // Pour définir des heures par défaut
+
 import 'react-datepicker/dist/react-datepicker.css';
 
 function Modal({
@@ -19,6 +21,18 @@ function Modal({
     setEventUpdated,
 }) {
     const [startDate, setStartDate] = useState(new Date());
+    const [startTime, setStartTime] = useState(
+        setHours(setMinutes(new Date(), 0), 9)
+    );
+    const [endTime, setEndTime] = useState(
+        setHours(setMinutes(new Date(), 0), 17)
+    );
+    const formatTime = date => {
+        return date.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+        });
+    };
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [pseudo, setPseudo] = useState('');
@@ -98,10 +112,14 @@ function Modal({
 
     const handleSubmit = async e => {
         e.preventDefault();
-        const formattedDate = startDate.toISOString();
+        const formattedDate = startDate.toISOString(); // Garder la date au format ISO
+        const formattedStartTime = formatTime(startTime); // Formater l'heure de début
+        const formattedEndTime = formatTime(endTime); // Formater l'heure de fin
 
         const eventData = {
             date: formattedDate,
+            startTime: formattedStartTime, // Heure au format HH:mm
+            endTime: formattedEndTime, // Heure au format HH:mm
             title,
             description,
         };
@@ -111,6 +129,8 @@ function Modal({
         if (!response.error) {
             addEvent({
                 date: formattedDate,
+                startTime: formattedStartTime,
+                endTime: formattedEndTime,
                 title,
                 description,
                 _id: response.eventId,
@@ -126,9 +146,13 @@ function Modal({
     //UPDATE/////////////////////////////////////////
 
     const handleSubmitUpdateEvent = async e => {
+        const formattedStartTime = formatTime(startTime); // Formater l'heure de début
+        const formattedEndTime = formatTime(endTime);
         e.preventDefault();
         const updatedEventData = {
             date: startDate.toISOString(),
+            startTime: formattedStartTime,
+            endTime: formattedEndTime,
             title,
             description,
         };
@@ -141,7 +165,18 @@ function Modal({
         if (eventToUpdate) {
             setStartDate(new Date(eventToUpdate.date)); // Pré-remplir la date
             setTitle(eventToUpdate.title); // Pré-remplir le titre
-            setDescription(eventToUpdate.description); // Pré-remplir la description
+            setDescription(eventToUpdate.description);
+            const [startHours, startMinutes] =
+                eventToUpdate.startTime.split(':');
+            const startTimeDate = new Date();
+            startTimeDate.setHours(startHours, startMinutes);
+
+            const [endHours, endMinutes] = eventToUpdate.endTime.split(':');
+            const endTimeDate = new Date();
+            endTimeDate.setHours(endHours, endMinutes);
+
+            setStartTime(startTimeDate); // Pré-remplir l'heure de début
+            setEndTime(endTimeDate); // Pré-remplir l'heure de fin
         }
     }, [eventToUpdate]);
 
@@ -276,6 +311,34 @@ function Modal({
                             onChange={date => setStartDate(date)}
                             dateFormat="dd/MM/yyyy"
                         />
+                        <div className="dateTime">
+                            <div>
+                                <label htmlFor="startTime">
+                                    Heure de début
+                                </label>
+                                <DatePicker
+                                    selected={startTime}
+                                    onChange={time => setStartTime(time)}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={15} // Intervalles de 15 minutes
+                                    timeCaption="Heure"
+                                    dateFormat="HH:mm"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="endTime">Heure de fin</label>
+                                <DatePicker
+                                    selected={endTime}
+                                    onChange={time => setEndTime(time)}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={15}
+                                    timeCaption="Heure"
+                                    dateFormat="HH:mm"
+                                />
+                            </div>
+                        </div>
                         <label htmlFor="">Titre</label>
                         <input
                             type="text"
@@ -307,11 +370,39 @@ function Modal({
                             onChange={date => setStartDate(date)}
                             dateFormat="dd/MM/yyyy"
                         />
+                        <div className="dateTime">
+                            <div>
+                                <label htmlFor="startTime">
+                                    Heure de début
+                                </label>
+                                <DatePicker
+                                    selected={startTime}
+                                    onChange={time => setStartTime(time)}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={15} // Intervalles de 15 minutes
+                                    timeCaption="Heure"
+                                    dateFormat="HH:mm"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="endTime">Heure de fin</label>
+                                <DatePicker
+                                    selected={endTime}
+                                    onChange={time => setEndTime(time)}
+                                    showTimeSelect
+                                    showTimeSelectOnly
+                                    timeIntervals={15}
+                                    timeCaption="Heure"
+                                    dateFormat="HH:mm"
+                                />
+                            </div>
+                        </div>
                         <label htmlFor="title">Titre</label>
                         <input
                             type="text"
-                            name=""
-                            id=""
+                            name="title"
+                            id="title"
                             value={title}
                             onChange={e => setTitle(e.target.value)}
                         />

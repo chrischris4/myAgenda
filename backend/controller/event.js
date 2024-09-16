@@ -2,10 +2,13 @@ const Event = require('../models/event');
 
 exports.createEvent = async (req, res) => {
     try {
-        const { date, title, description, userId } = req.body; // Récupérer userId des données de la requête
+        const { date, title, description, startTime, endTime, userId } =
+            req.body; // Récupérer userId des données de la requête
 
         const newEvent = new Event({
             date: new Date(date),
+            startTime,
+            endTime,
             title,
             description,
             userId, // Ajout de l'userId à l'événement
@@ -39,13 +42,13 @@ exports.getEvents = async (req, res) => {
 
 exports.updateEvent = async (req, res) => {
     const eventId = req.params.id; // Récupérer l'ID de l'événement à partir des paramètres
-    const { date, title, description } = req.body; // Récupérer les champs à mettre à jour
+    const { date, title, description, startTime, endTime } = req.body; // Récupérer les champs à mettre à jour
 
     try {
         // Mettre à jour l'événement avec les nouvelles données
         const updatedEvent = await Event.findByIdAndUpdate(
             eventId,
-            { date: new Date(date), title, description }, // Les champs à mettre à jour
+            { date: new Date(date), title, description, startTime, endTime }, // Les champs à mettre à jour
             { new: true, runValidators: true } // Renvoie l'événement mis à jour
         );
 

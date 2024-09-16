@@ -112,6 +112,14 @@
     }
 }
 
+.eventHours {
+    display: flex;
+
+    p {
+        margin: 0 10px 0 10px;
+    }
+}
+
 .eventDescription {
     width: 100%;
     border-top: 2px solid #293346;
