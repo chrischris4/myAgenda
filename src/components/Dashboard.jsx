@@ -8,6 +8,7 @@ function Dashboard({
     stuckDashNav,
     setEventToDelete,
     setEventToUpdate,
+    onDateClick,
 }) {
     const [currentMonthDays, setCurrentMonthDays] = useState([]);
     const [monthName, setMonthName] = useState('');
@@ -18,7 +19,6 @@ function Dashboard({
     const handleViewChange = view => {
         setViewType(view);
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        // Changer la vue en fonction du clic
     };
 
     const weekDays = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
@@ -28,42 +28,65 @@ function Dashboard({
         return new Date(year, month + 1, 0).getDate();
     };
 
-    // Fonction pour générer les jours du mois actuel
+    const hasEventOnDay = (day, monthIndex) => {
+        return events.some(event => {
+            const eventDate = new Date(event.date);
+            return (
+                eventDate.getFullYear() === new Date().getFullYear() &&
+                eventDate.getMonth() === monthIndex &&
+                eventDate.getDate() === day
+            );
+        });
+    };
+
     const generateCurrentMonthDays = () => {
         const today = new Date();
         const currentYear = today.getFullYear();
-        const currentMonth = today.getMonth(); // Mois actuel (de 0 à 11)
+        const currentMonth = today.getMonth();
         const daysInMonth = getDaysInMonth(currentMonth, currentYear);
-
-        // Déterminer le premier jour du mois (0 = Dimanche, 1 = Lundi, etc.)
         const firstDay = new Date(currentYear, currentMonth, 1).getDay();
 
-        // Créer un tableau pour les jours du mois (y compris les cases vides avant le premier jour)
         let daysArray = [];
 
-        // Ajouter les cases vides pour aligner les jours correctement
+        // Ajout des divs emptyDay avant le premier jour du mois
         for (let i = 0; i < (firstDay === 0 ? 6 : firstDay - 1); i++) {
             daysArray.push(<div key={`empty-${i}`} className="emptyDay"></div>);
         }
 
-        // Ajouter les jours du mois
+        // Ajout des jours du mois
         for (let i = 1; i <= daysInMonth; i++) {
-            daysArray.push(i);
+            const date = new Date(currentYear, currentMonth, i); // Créer une date complète
+            const eventExists = hasEventOnDay(i, currentMonth);
+
+            daysArray.push(
+                <div
+                    key={i}
+                    className="day"
+                    onClick={() => {
+                        onDateClick(date);
+                        window.scrollTo({ top: 0 });
+                    }} // Appeler la fonction onDateClick avec la date
+                >
+                    {i}
+                    {eventExists && (
+                        <span className="eventDot"></span> // Ajouter une pastille si un événement existe
+                    )}
+                </div>
+            );
         }
 
-        // Définir les jours du mois dans le state
+        // Met à jour les jours du mois et le nom du mois
         setCurrentMonthDays(daysArray);
-
-        // Définir le nom du mois (en utilisant l'API `toLocaleString`)
         const monthName = today.toLocaleString('fr-FR', { month: 'long' });
         setMonthName(monthName);
     };
 
-    // Utiliser useEffect pour exécuter la fonction quand le composant est monté
+    // Utiliser useEffect pour générer les jours du mois lors du montage
     useEffect(() => {
         generateCurrentMonthDays();
-    }, []);
+    }, []); // On ne passe ici qu'une seule fois lors du montage du composant.
 
+    // Utiliser useEffect pour récupérer les événements
     useEffect(() => {
         const fetchEvents = async () => {
             try {
@@ -84,6 +107,13 @@ function Dashboard({
 
         fetchEvents();
     }, []);
+
+    // Appeler generateCurrentMonthDays à chaque fois que les événements sont mis à jour
+    useEffect(() => {
+        if (events.length > 0) {
+            generateCurrentMonthDays();
+        }
+    }, [events]); // Réagir au changement de la variable events
 
     const filterTodayEvents = events => {
         const today = new Date();
@@ -110,22 +140,6 @@ function Dashboard({
 
     const handleCreateClick = () => {
         onShowModalClick('modalCreateEvent');
-    };
-
-    // Fonction pour vérifier si un événement existe pour un jour donné
-    const hasEventOnDay = day => {
-        const today = new Date();
-        const currentYear = today.getFullYear();
-        const currentMonth = today.getMonth(); // Mois actuel (de 0 à 11)
-
-        return events.some(event => {
-            const eventDate = new Date(event.date);
-            return (
-                eventDate.getFullYear() === currentYear &&
-                eventDate.getMonth() === currentMonth &&
-                eventDate.getDate() === day
-            );
-        });
     };
 
     return (
@@ -213,19 +227,10 @@ function Dashboard({
                                 ))}
                             </div>
                             <div className="daysContainer">
-                                {currentMonthDays.map((day, index) => (
-                                    <div key={index} className="day">
-                                        {typeof day === 'number' ? (
-                                            <>
-                                                {day}
-                                                {hasEventOnDay(day) && (
-                                                    <div className="eventDot"></div>
-                                                )}
-                                            </>
-                                        ) : (
-                                            day
-                                        )}
-                                    </div>
+                                {currentMonthDays.map((dayElement, index) => (
+                                    <React.Fragment key={index}>
+                                        {dayElement}
+                                    </React.Fragment>
                                 ))}
                             </div>
                         </div>
@@ -239,11 +244,6 @@ function Dashboard({
                                     key={event._id}
                                     className="event todayEvent"
                                 >
-                                    <h4>
-                                        {new Date(
-                                            event.date
-                                        ).toLocaleDateString('fr-FR')}
-                                    </h4>
                                     <div className="eventHours">
                                         <h4 className="eventHour">
                                             {event.startTime}

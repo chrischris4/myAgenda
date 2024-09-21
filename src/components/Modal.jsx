@@ -162,7 +162,8 @@ function Modal({
     };
 
     useEffect(() => {
-        if (eventToUpdate) {
+        if (eventToUpdate && eventToUpdate._id) {
+            // Assure-toi que eventToUpdate est défini
             setStartDate(new Date(eventToUpdate.date)); // Pré-remplir la date
             setTitle(eventToUpdate.title); // Pré-remplir le titre
             setDescription(eventToUpdate.description);
@@ -312,7 +313,7 @@ function Modal({
                             dateFormat="dd/MM/yyyy"
                         />
                         <div className="dateTime">
-                            <div>
+                            <div className="dateTimeSections">
                                 <label htmlFor="startTime">
                                     Heure de début
                                 </label>
@@ -326,7 +327,7 @@ function Modal({
                                     dateFormat="HH:mm"
                                 />
                             </div>
-                            <div>
+                            <div className="dateTimeSections">
                                 <label htmlFor="endTime">Heure de fin</label>
                                 <DatePicker
                                     selected={endTime}
@@ -371,7 +372,7 @@ function Modal({
                             dateFormat="dd/MM/yyyy"
                         />
                         <div className="dateTime">
-                            <div>
+                            <div className="dateTimeSections">
                                 <label htmlFor="startTime">
                                     Heure de début
                                 </label>
@@ -385,7 +386,7 @@ function Modal({
                                     dateFormat="HH:mm"
                                 />
                             </div>
-                            <div>
+                            <div className="dateTimeSections">
                                 <label htmlFor="endTime">Heure de fin</label>
                                 <DatePicker
                                     selected={endTime}

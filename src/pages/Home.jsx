@@ -112,13 +112,8 @@ function Home() {
         });
     };
 
-    const handleLogout = () => {
-        logoutUser();
-        setConnectedUser(false);
-        window.scrollTo({ top: 0 });
-    };
-
     /////////////////////////////////////////EVENT///////////////////////////////////////
+
     //////ADD/////////
 
     const addEvent = event => {
@@ -163,6 +158,14 @@ function Home() {
                 response.message
             );
         }
+    };
+
+    /////////////////////////////USER///////////////////////////////////////
+
+    const handleLogout = () => {
+        logoutUser();
+        setConnectedUser(false);
+        window.scrollTo({ top: 0 });
     };
 
     // Vérifie si l'utilisateur est authentifié et récupère les événements
@@ -247,6 +250,7 @@ function Home() {
                         onPrevDay={handlePrevDay}
                         onNextDay={handleNextDay}
                         setEventToDelete={setEventToDelete}
+                        setEventToUpdate={setEventToUpdate}
                     />
                 );
             default:
@@ -266,7 +270,7 @@ function Home() {
                     setActiveModalSection(section);
                 }}
                 setConnectedUser={setConnectedUser}
-                connectedUser={connectedUser} // Indique si l'utilisateur est connecté
+                connectedUser={connectedUser}
             />
             {!connectedUser && (
                 <HomePage

@@ -7,6 +7,7 @@ function SelectedDaySection({
     onNextDay,
     onShowModalClick,
     setEventToDelete,
+    setEventToUpdate,
 }) {
     //////AFFICHER LES EVENTS SUIVANT LE JOUR/////////////////////////////////////////
     const formattedDate = date.toLocaleDateString('fr-FR', {
@@ -35,7 +36,8 @@ function SelectedDaySection({
         onShowModalClick('modalDeleteEvent');
     };
 
-    const handleModifyClick = () => {
+    const handleModifyClick = event => {
+        setEventToUpdate(event);
         onShowModalClick('modalModifyEvent');
     };
 
@@ -71,18 +73,20 @@ function SelectedDaySection({
                     {eventsForSelectedDate.length > 0 ? (
                         eventsForSelectedDate.map(event => (
                             <div key={event._id} className="event">
-                                <h4 className="eventDate">
-                                    {new Date(event.date).toLocaleTimeString(
-                                        'fr-FR'
-                                    )}
-                                </h4>
+                                <div className="eventHours">
+                                    <h4 className="eventHour">
+                                        {event.startTime}
+                                    </h4>
+                                    <p>-</p>
+                                    <h4>{event.endTime}</h4>
+                                </div>
                                 <h3>{event.title}</h3>
                                 <p className="eventDescription">
                                     {event.description}
                                 </p>
                                 <span
                                     className="material-symbols-rounded iconEvent modify"
-                                    onClick={handleModifyClick}
+                                    onClick={() => handleModifyClick(event)}
                                 >
                                     edit_square
                                 </span>

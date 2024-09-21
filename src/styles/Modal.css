@@ -73,6 +73,11 @@
     display: flex;
 }
 
+.dateTimeSections {
+    width: min-content;
+    margin-right: 20px;
+}
+
 .modalCreateProfil {
     display: flex;
     flex-direction: column;
